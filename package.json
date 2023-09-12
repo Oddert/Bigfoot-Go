@@ -7,16 +7,30 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify ./src/index.js -o ./dist/index.js",
     "watch": "watchify ./src/index.js -o ./dist/index.js",
-    "start": "parcel"
+    "server": "node server/server.mjs",
+    "server:watch": "nodemon server/server.mjs",
+    "start": "concurrently \"parcel\" \"npm run server:watch\""
   },
   "author": "Robyn F H Veitch",
   "license": "ISC",
   "source": "index.html",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "leaflet": "^1.9.4",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
+    "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
+    "concurrently": "^8.2.1",
+    "nodemon": "^3.0.1",
     "parcel": "^2.9.3"
   }
 }

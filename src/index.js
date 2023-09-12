@@ -1,14 +1,15 @@
-// import * as _ from 'lodash'
-// import * as L from 'leaflet'
+// import bfoot from '../data/bfoot.json'
+import bfoot from '../data/bfootConverted.json'
 
-import bfoot from '../bfoot.json'
+const targetCenterCoords = {
+    lat: 55.856,
+    lon: -4.259,
+}
 
-// console.log('-=-=-=-=-=-=-=-=-')
-// console.log(_)
-// console.log('-=-=-=-=-=-=-=-=-')
+const map = L.map('map').setView([targetCenterCoords.lat, targetCenterCoords.lon], 13)
 
-const map = L.map('map').setView([39.50, -98.35], 4)
-// const map = L.map('map').setView([bfoot[0].latitude, bfoot[0].longitude], 2)
+// const map = L.map('map').setView([39.50, -98.35], 4)
+// const map = L.map('map').setView([bfoot[0].latitude, bfoot[0].longitude], 3)
 // const map = L.map('map').setView([51.505, -0.09], 13)
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -16,6 +17,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map)
 
+// ========== Test / demo markers ==========
 const marker = L.marker([51.5, -0.09]).addTo(map)
 
 const circle = L.circle([51.508, -0.11], {
@@ -34,9 +36,13 @@ const polygon = L.polygon([
 marker.bindPopup('<b>Hello World</b><br /><p>I am a popup</p>')
 circle.bindPopup('I am a circle')
 polygon.bindPopup('I am a polygon')
+// ========== end Test / demo markers ==========
 
-console.log(bfoot)
 bfoot.forEach(datum => {
     const mark = L.marker([datum.latitude, datum.longitude]).addTo(map)
-    mark.bindPopup(`<b>${datum.classification} - ${datum.timestamp}</b><br /><p>${datum.title}</p>`)
+    mark.bindPopup(
+        `<b>${datum.classification} - ${datum.timestamp}</b>
+        <br />
+        <p>${datum.title}</p>`
+    )
 })
