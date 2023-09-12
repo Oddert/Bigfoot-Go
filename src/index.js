@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // import bfoot from '../data/bfoot.json'
 // import bfoot from '../data/bfootConverted.json'
 

@@ -1,4 +1,4 @@
-import './types.mjs';
+import './types.mjs'
 
 /**
  * Transforms and scales the Bigfoot dataset to a scale and position desired.
@@ -17,7 +17,7 @@ const centerCoordinatesOnPlayer = (
     // Find the magnitude difference between the center points
     const latDifference = sourceCenterCoords.lat - targetCenterCoords.lat
     const lonDifference = sourceCenterCoords.lon - targetCenterCoords.lon
-    const convertedData = data.map((datum, idx) => {
+    const convertedData = data.map((datum) => {
         // Minus this magnitude difference from each of the data points to transform them to their new position.
         const latTransformed = datum.latitude - latDifference
         const lonTransformed = datum.longitude - lonDifference

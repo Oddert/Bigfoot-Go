@@ -15,7 +15,7 @@ db.run(
             console.error(err.message)
         } else {
             console.log('...table created')
-            const insert = `INSERT INTO user (username, password) VALUES (?, ?)`
+            const insert = 'INSERT INTO user (username, password) VALUES (?, ?)'
             db.run(insert, ['admin', md5('admin123455')])
             db.run(insert, ['testuser', md5('user123455')])
             console.log('...test users inserted')
