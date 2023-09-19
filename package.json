@@ -7,14 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify ./src/index.js -o ./dist/index.js",
     "watch": "watchify ./src/index.js -o ./dist/index.js",
-    "server": "node server/server.mjs",
+    "start": "babel-node server/server.mjs",
     "server:watch": "nodemon server/server.mjs",
-    "start": "concurrently \"parcel\" \"npm run server:watch\""
+    "dev": "concurrently \"parcel\" \"npm run server:watch\""
   },
   "author": "Robyn F H Veitch",
   "license": "ISC",
   "source": "index.html",
   "dependencies": {
+    "@babel/core": "^7.22.20",
+    "@babel/node": "^7.22.19",
+    "babel-node": "^0.0.1-security",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
