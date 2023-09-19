@@ -14,6 +14,7 @@ const centerCoordinatesOnPlayer = (
     targetCenterCoords = { lat: 0, lon: 0 },
     scale = 1
 ) => {
+    console.log(data.length, sourceCenterCoords, targetCenterCoords, scale)
     // Find the magnitude difference between the center points
     const latDifference = sourceCenterCoords.lat - targetCenterCoords.lat
     const lonDifference = sourceCenterCoords.lon - targetCenterCoords.lon
@@ -26,7 +27,8 @@ const centerCoordinatesOnPlayer = (
         const lonMagnitude = lonTransformed - targetCenterCoords.lon
 
         const latDivider = scale / 2250
-        const lonDivider = scale / 950
+        // const lonDivider = scale / 950
+        const lonDivider = scale / 2000
 
         const latScaled = targetCenterCoords.lat + latMagnitude * latDivider
         const lonScaled = targetCenterCoords.lon + lonMagnitude * lonDivider

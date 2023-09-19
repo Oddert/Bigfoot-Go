@@ -13,15 +13,83 @@
         crossorigin=""></script>
     </head>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
         #map {
-            height: 500px;
-            min-width: 500px;
+            /* height: 500px; */
+            height: 100vh;
+            /* min-width: 500px; */
+
             border: '1px dashed tomato'
+        }
+        #popup {
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+            background: rgba(236, 240, 241, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-inner {
+            background: #65850c;
+            border-radius: 10px;
+            min-height: 200px;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 30px;
+        }
+        .bfoot {
+            height: 60vh;
+            width: auto;
+            max-width: 300px;
+            object-fit: contain;
+        }
+        .hidden,
+        #popup.hidden
+        {
+            display: none;
+        }
+        .camera {
+            background: none;
+            cursor: pointer;
+            border: 3px solid #ecf0f1;
+            border-radius: 50%;
+            transition: .5s linear;
+        }
+        .camera img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .camera:hover {
+            background: rgba(236, 240, 241, 0.3);
+        }
+        .camera:active {
+            background: rgba(236, 240, 241, 0.7);
         }
     </style>
     <body>
-        <h1>?????</h1>
         <div id='map'></div>
+        <div id='popup' class='hidden'>
+            <div class='popup-inner'>
+                <h2 class='title'>A wild Bigfoot appears!</h2>
+                <img class='bfoot actual' src='./src/bigfoot.jpg' alt='Cartoon Bigfoot'>
+                <img class='bfoot danny hidden' src='./src/danny.png' alt='Danny Divito'>
+                <button class='camera'>
+                    <img src='./src/icon-camera.png' alt='capture'>
+                </button>
+                <button class='close hidden'>Close</button>
+                <button class='success hidden'>Close</button>
+            </div>
+        </div>
     </body>
     <script type='module' src='./src/index.js'></script>
 </html>
