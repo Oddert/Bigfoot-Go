@@ -2,7 +2,8 @@ import { Router } from 'express'
 
 import centerCoordinatesOnPlayer from '../../src/centerCoordinatesOnPlayer.mjs'
 
-import bfootSeedData from '../../data/bfoot.json' assert { type: 'json' }
+// import bfootSeedData from '../../data/bfoot.json' assert { type: 'json' }
+import bfootSeedData from '../../data/bfoot.js'
 // import bfootSeedData from '../../data/bfootConverted.json' assert { type: 'json' }
 
 const router = Router()
