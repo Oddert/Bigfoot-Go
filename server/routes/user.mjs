@@ -6,6 +6,8 @@ import { Router } from 'express'
 
 import db from '../db.mjs'
 
+const __dirname = __dirname || path.resolve(path.dirname(''))
+
 const router = Router()
 
 router.route('/login')

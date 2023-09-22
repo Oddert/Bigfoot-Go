@@ -18,7 +18,7 @@ import routeUser from './routes/user.mjs'
 
 dotenv.config()
 
-const __dirname = path.resolve(path.dirname(''))
+const __dirname = __dirname || path.resolve(path.dirname(''))
 
 const app = express()
 const PORT = process.env.PORT || 3000
