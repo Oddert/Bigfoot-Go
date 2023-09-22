@@ -79,7 +79,7 @@ const render = async (
             [datum.latitude, datum.longitude],
             {
                 icon: L.icon({
-                    iconUrl: 'http://localhost:3000/src/icon-bush.gif',
+                    iconUrl: './src/icon-bush.gif',
                     iconSize: [50, 23.5],
                 })
             })
@@ -121,6 +121,9 @@ const findNearPoints = (coords, _points) => {
 }
 
 const drawUser = (position) => {
+    if (!map) {
+        return
+    }
     const userCoords = [position.coords.latitude, position.coords.longitude]
 
     if (!userCircle) {
@@ -143,19 +146,19 @@ const drawUser = (position) => {
             {
                 icon: position.coords.heading
                     ? L.icon({
-                        iconUrl: 'http://localhost:3000/src/icon-location.png',
+                        iconUrl: './src/icon-location.png',
                         shadowUrl: '',
                         iconSize: [40 * iconScale, 40 * iconScale],
                         className: 'user-icon',
                     })
                     // ? L.icon({
-                    //     iconUrl: 'http://localhost:3000/src/icon-location-heading.png',
+                    //     iconUrl: './src/icon-location-heading.png',
                     //     shadowUrl: '',
                     //     iconSize: [64 * iconScale, 130 * iconScale],
                     //     className: 'user-icon',
                     // })
                     : L.icon({
-                        iconUrl: 'http://localhost:3000/src/icon-location.png',
+                        iconUrl: './src/icon-location.png',
                         shadowUrl: '',
                         iconSize: [40 * iconScale, 40 * iconScale],
                         className: 'user-icon',
