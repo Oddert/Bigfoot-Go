@@ -194,14 +194,14 @@ const drawUser = (position) => {
 }
 
 if (navigator.geolocation) {
-    render(
-        // { lat: position.coords.latitude, lon: position.coords.longitude },
-        // () => drawUser(position)
-        { lat: 57.197332, lon: -3.822182 },
-        () => drawUser({ coords: { latitude: 57.197332, longitude: -3.822182, accuracy: 5, heading: 0 } })
-    )
-    // navigator.geolocation.getCurrentPosition((position) => {
-    // })
+    navigator.geolocation.getCurrentPosition((position) => {
+        render(
+            { lat: position.coords.latitude, lon: position.coords.longitude },
+            () => drawUser(position)
+            // { lat: 57.197332, lon: -3.822182 },
+            // () => drawUser({ coords: { latitude: 57.197332, longitude: -3.822182, accuracy: 5, heading: 0 } })
+        )
+    })
 } else {
     render()
     alert('You need to enable location for Bigfoot Go to work.')
@@ -211,30 +211,29 @@ let xInc = 0
 // let yInc = 0
 
 const gameLoop = () => {
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //     // console.log('rerender', xInc, yInc)
-    //     // console.log(position)
-    //     // console.log(position.coords, {
-    //     //     ...position.coords,
-    //     //     latitude: position.coords.latitude,// + (yInc / 10000),
-    //     //     longitude: position.coords.longitude + (xInc / 10000),
-    //     //     accuracy: position.coords.accuracy || 2,
-    //     // })
-    //     // yInc++
-    // })
-    const position = { coords: { latitude: 57.197332, longitude: -3.820735, accuracy: 5, heading: 0 } }
-    drawUser({ ...position, coords: {
-        ...position.coords,
-        latitude: position.coords.latitude,// + (yInc / 10000),
-        longitude: position.coords.longitude + (xInc / 10000),
-        accuracy: position.coords.accuracy || 2,
-    } })
-    xInc++
+    navigator.geolocation.getCurrentPosition((position) => {
+        console.log('rerender', xInc, yInc)
+        console.log(position)
+        console.log(position.coords, {
+            ...position.coords,
+            latitude: position.coords.latitude,// + (yInc / 10000),
+            longitude: position.coords.longitude + (xInc / 10000),
+            accuracy: position.coords.accuracy || 2,
+        })
+        drawUser({ ...position, coords: {
+            ...position.coords,
+            latitude: position.coords.latitude,// + (yInc / 10000),
+            longitude: position.coords.longitude + (xInc / 10000),
+            accuracy: position.coords.accuracy || 2,
+        } })
+        xInc++
+    })
+    // yInc++
+    // const position = { coords: { latitude: 57.197332, longitude: -3.820735, accuracy: 5, heading: 0 } }
 }
 
 let interval = setInterval(gameLoop, 1000)
 
-// eslint-disable-next-line no-unused-vars
 const noLoop = () => clearInterval(interval)
 
 function startEncounter (idx) {
@@ -242,8 +241,6 @@ function startEncounter (idx) {
     if (idx in found) {
         return
     }
-    // stop the interval
-    // show the game mechanic
     console.log('ENCOUNTER')
     noLoop()
     const popup = document.querySelector('#popup')
