@@ -148,15 +148,21 @@ html, body {
 
 .title {
   font-family: "Skranji", cursive;
-  color: #50C195;
+  color: #253b79;
+  background: #fff;
+  letter-spacing: 2px;
+  padding: 10px 30px;
+  border-radius: 10px;
+  transform: rotate(-2deg) translate(-5vw);
 }
 
 .bfoot {
-  height: 50vh;
+  height: 40vh;
   width: 45vh;
   /* width: auto; */
   max-width: 300px;
   object-fit: cover;
+  object-position: top;
 }
 
 .bfoot.bush {

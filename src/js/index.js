@@ -13,6 +13,14 @@ let userCircle
 let map
 let bfoot
 
+const titleMessagesSuccess = ['Success! You send the photo the local paper']
+
+const titleMessagesFail = ['Oh no! They got away!']
+
+const titleMessagesDanny = [
+    'Oh never mind, its just danny'
+]
+
 const closeButtonMessages = [
     'My grief is inconsolable',
     'I will do better next time',
@@ -23,6 +31,17 @@ const closeButtonMessages = [
     ':(',
     'Victory will yet be mine',
     'Continue the search...',
+]
+
+const dannyCloseMessages = [
+    'Oh hi danny',
+    'Danny Divito!? I\'m a big fan!',
+    'I\'m going to chase you out of town',
+    'What are you doing in my geraniums',
+    'I thought it was you',
+    'Basically a cryptid anyway...',
+    'Congratulations on the SAG-AFTRA strike Danny',
+    'This always happens',
 ]
 
 const bfootCaptured = [
@@ -40,6 +59,15 @@ const bfootSighted = [
     'bfoot-treeline.jpeg',
     'bfoot-thumb.jpg',
     'bfoot-woops.jpg',
+]
+
+const bfootDanny = [
+    'danny.jpeg',
+    'egg.jpg',
+    'laugh.jpg',
+    'peace.jpg',
+    'void.jpg',
+    'wig.jpg',
 ]
 
 const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)]
@@ -226,7 +254,7 @@ if (navigator.geolocation) {
     alert('You need to enable location for Bigfoot Go to work.')
 }
 
-let xInc = 0
+// let xInc = 0
 // let yInc = 0
 
 const gameLoop = () => {
@@ -236,16 +264,16 @@ const gameLoop = () => {
         console.log(position.coords, {
             ...position.coords,
             latitude: position.coords.latitude,// + (yInc / 10000),
-            longitude: position.coords.longitude + (xInc / 10000),
+            longitude: position.coords.longitude, // + (xInc / 10000),
             accuracy: position.coords.accuracy || 2,
         })
         drawUser({ ...position, coords: {
             ...position.coords,
-            latitude: position.coords.latitude,// + (yInc / 10000),
-            longitude: position.coords.longitude + (xInc / 10000),
+            latitude: position.coords.latitude, // + (yInc / 10000),
+            longitude: position.coords.longitude, // + (xInc / 10000),
             accuracy: position.coords.accuracy || 2,
         } })
-        xInc++
+        // xInc++
     })
     // yInc++
     // const position = { coords: { latitude: 57.197332, longitude: -3.820735, accuracy: 5, heading: 0 } }
@@ -269,20 +297,22 @@ function startEncounter (idx) {
     const actual = popup.querySelector('.bfoot.actual')
     const actualWrapper = actual.closest('.polaroid')
     const danny = popup.querySelector('.bfoot.danny')
-    // const dannyWrapper = danny.closest('.polaroid')
+    const dannyWrapper = danny.closest('.polaroid')
     const camera = popup.querySelector('.camera')
     const close = popup.querySelector('.close')
     const success = popup.querySelector('.success')
 
     popup.classList.remove('hidden')
+    const titleNeg = Math.floor(Math.random() * 2)
+    title.style.transform = `rotate(${Math.floor(Math.random() * 2) * (titleNeg ? -1 : 1)}deg) translate(${titleNeg ? '-5vw' : '    5vw'})`
 
     const resetImgs = () => {
         actualWrapper.classList.add('hidden')
-        danny.classList.add('hidden')
+        dannyWrapper.classList.add('hidden')
     }
 
     const resetTitle = () => {
-        title.innerHTML = 'A wild Bigfoot appears!'
+        title.innerHTML = 'Something is rustling ahead!'
         actualWrapper.classList.add('hidden')
         popup.classList.add('hidden')
         close.classList.add('hidden')
@@ -300,19 +330,35 @@ function startEncounter (idx) {
 
     const fail = () => {
         resetImgs()
-        title.innerHTML = 'Oh no! They got away!'
+        title.innerHTML = pickRandom(titleMessagesFail)
         actual.src = `./src/imgs/bigfoot-sighted/${pickRandom(bfootSighted)}`
         actualWrapper.classList.remove('hidden')
-        close.classList.remove('hidden')
-        success.classList.add('hidden')
-        camera.classList.add('hidden')
-        close.innerHTML = `${pickRandom(closeButtonMessages)} (close)`
-
+        close.innerHTML = `"${pickRandom(closeButtonMessages)}" (close)`
+        setTimeout(() => {
+            close.classList.remove('hidden')
+            success.classList.add('hidden')
+            camera.classList.add('hidden')
+        }, 100)
         close.onclick = resetTitle
         setTimeout(resetTitle, 10_000)
     }
 
-    // let timeFail = setTimeout(fail, Math.random() * 10_000 + 15_000)
+    const dannySurprise = () => {
+        resetImgs()
+        title.innerHTML = pickRandom(titleMessagesDanny)
+        danny.src = `./src/imgs/danny/${pickRandom(bfootDanny)}`
+        dannyWrapper.classList.remove('hidden')
+        close.innerHTML = `"${pickRandom(dannyCloseMessages)}" (close)`
+        setTimeout(() => {
+            close.classList.remove('hidden')
+            success.classList.add('hidden')
+            camera.classList.add('hidden')
+        }, 100)
+        close.onclick = resetTitle
+        setTimeout(resetTitle, 10_000)
+    }
+
+    let timeFail = setTimeout(fail, Math.random() * 10_000 + 15_000)
 
     console.log(camera, camera.onclick)
     camera.onclick = () => {
@@ -320,11 +366,11 @@ function startEncounter (idx) {
         popup.classList.add('flash')
         setTimeout(() => {
             popup.classList.remove('flash')
-            // clearInterval(timeFail)
+            clearInterval(timeFail)
             bush.classList.add('hidden')
             const coinFlip = Math.floor(Math.random() * 3)
             if (coinFlip < 2) {
-                title.innerHTML = 'Success! You send the photo the local paper'
+                title.innerHTML = pickRandom(titleMessagesSuccess)
                 actualWrapper.classList.remove('hidden')
                 actual.src = `./src/imgs/bigfoot-captured/${pickRandom(bfootCaptured)}`
                 actualWrapper.style.transform = `rotate(${Math.floor(Math.random() * 8) * (Math.floor(Math.random() * 2) ? -1 : 1)}deg)`
@@ -335,7 +381,12 @@ function startEncounter (idx) {
                     resetTitle()
                 }
             } else {
-                fail()
+                const dannyCoinFlip = Math.floor(Math.random() * 6)
+                if (dannyCoinFlip < 2) {
+                    dannySurprise()
+                } else {
+                    fail()
+                }
             }
         }, 500)
     }
