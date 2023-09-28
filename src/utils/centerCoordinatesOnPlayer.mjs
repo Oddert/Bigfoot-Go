@@ -1,4 +1,4 @@
-import './types.mjs'
+import '../types/types.mjs'
 
 /**
  * Transforms and scales the Bigfoot dataset to a scale and position desired.

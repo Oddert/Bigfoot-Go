@@ -5,91 +5,45 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
         <title>Bigfoot Go</title>
         <!-- <link href='node_modules/leaflet/dist/leaflet.css' rel='stylesheet' /> -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""/>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""></script>
+        <link
+            rel='stylesheet'
+            href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+            integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY='
+            crossorigin=''
+        />
+        <script
+            src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+            integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo='
+            crossorigin=''
+        ></script>
+        <link rel='preconnect' href='https://fonts.googleapis.com'>
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+        <link href='https://fonts.googleapis.com/css2?family=Skranji&display=swap' rel='stylesheet'>
+        <link rel='stylesheet' href='./src/css/index.css'>
     </head>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
-        #map {
-            /* height: 500px; */
-            height: 100vh;
-            /* min-width: 500px; */
-
-            border: '1px dashed tomato'
-        }
-        #popup {
-            height: 100vh;
-            width: 100vw;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 999;
-            background: rgba(236, 240, 241, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .popup-inner {
-            background: #65850c;
-            border-radius: 10px;
-            min-height: 200px;
-            min-width: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px 30px;
-        }
-        .bfoot {
-            height: 60vh;
-            width: auto;
-            max-width: 300px;
-            object-fit: contain;
-        }
-        .hidden,
-        #popup.hidden
-        {
-            display: none;
-        }
-        .camera {
-            background: none;
-            cursor: pointer;
-            border: 3px solid #ecf0f1;
-            border-radius: 50%;
-            transition: .5s linear;
-        }
-        .camera img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-        }
-        .camera:hover {
-            background: rgba(236, 240, 241, 0.3);
-        }
-        .camera:active {
-            background: rgba(236, 240, 241, 0.7);
-        }
-    </style>
     <body>
         <div id='map'></div>
         <div id='popup' class='hidden'>
+            <img class='background cover' src='./src/imgs/forest-background.jpg' alt='background'>
+            <img class='background primary' src='./src/imgs/forest-background.jpg' alt='background'>
             <div class='popup-inner'>
-                <h2 class='title'>A wild Bigfoot appears!</h2>
-                <img class='bfoot actual' src='./src/bigfoot.jpg' alt='Cartoon Bigfoot'>
-                <img class='bfoot danny hidden' src='./src/danny.png' alt='Danny Divito'>
+                <h2 class='title'>Something is rustling ahead!</h2>
+                <div class='polaroid hidden'>
+                    <div class='polar-border'>
+                        <!-- <img class='bfoot actual' src='./src/imgs/bigfoot-captured/bfoot-sprite.png' alt='Cartoon Bigfoot'> -->
+                        <img class='bfoot actual' src='./src/imgs/bigfoot.jpg' alt='Cartoon Bigfoot'>
+                    </div>
+                </div>
+                <img class='bfoot bush' src='./src/imgs/ui/icon-bush.gif' alt='Cartoon bush rustling'>
+                <img class='bfoot danny hidden' src='./src/imgs/danny/danny.png' alt='Danny Divito'>
                 <button class='camera'>
-                    <img src='./src/icon-camera.png' alt='capture'>
+                    <img src='./src/imgs/ui/icon-camera.png' alt='capture'>
                 </button>
-                <button class='close hidden'>Close</button>
-                <button class='success hidden'>Close</button>
+                <button class='button close'>Probably a fake anyway (close)</button>
+                <button class='button close hidden'>Close</button>
+                <button class='button success hidden'>Close</button>
             </div>
         </div>
     </body>
-    <script type='module' src='./src/index.js'></script>
+    <script type='module' src='./src/js/index.js'></script>
 </html>

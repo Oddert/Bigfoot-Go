@@ -2,18 +2,19 @@
   "name": "bigfoot-go",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/js/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify ./src/index.js -o ./dist/index.js",
-    "watch": "watchify ./src/index.js -o ./dist/index.js",
+    "build": "parcel build",
+    "watch": "parcel",
     "start": "babel-node server/server.mjs",
     "server:watch": "nodemon server/server.mjs",
-    "dev": "concurrently \"parcel\" \"npm run server:watch\""
+    "sass:watch": "sass --watch src/sass:src/css",
+    "dev": "concurrently \"parcel\" \"npm run server:watch\" \"npm run sass:watch\""
   },
   "author": "Robyn F H Veitch",
   "license": "ISC",
-  "source": "index.html",
+  "source": "src/js/index.js",
   "dependencies": {
     "@babel/core": "^7.22.20",
     "@babel/node": "^7.22.19",
@@ -30,6 +31,7 @@
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "sass": "^1.68.0",
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
@@ -38,5 +40,7 @@
     "nodemon": "^3.0.1",
     "parcel": "^2.9.3"
   },
-  "engines": { "node": "16.x" }
+  "engines": {
+    "node": "16.x"
+  }
 }

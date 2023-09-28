@@ -1,0 +1,55 @@
+@keyframes flashAnim {
+  from {
+    filter: brightness(200%);
+  }
+  to {
+    filter: brightness(100%);
+  }
+}
+@keyframes printAnim {
+  from {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+.flash {
+  animation: flashAnim 1s;
+}
+
+.polaroid {
+  padding: 20px 20px 50px 20px;
+  margin: 10px 0;
+  background: #ecf0f1;
+  box-shadow: 5px 7px 10px rgba(0, 0, 0, 0.7);
+  transform: rotate(-5deg);
+  animation: printAnim 1s;
+}
+
+/* attribution https://codepen.io/bsmith/pen/yLWYNb  */
+/* .polaroid:after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    width: 70%;
+    max-width: 300px;
+    max-height: 100px;
+    height: 55%;
+    -webkit-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    -webkit-transform: skew(-15deg) rotate(-6deg);
+    -moz-transform: skew(-15deg) rotate(-6deg);
+    -ms-transform: skew(-15deg) rotate(-6deg);
+    -o-transform: skew(-15deg) rotate(-6deg);
+    transform: skew(-15deg) rotate(-6deg);
+} */
+.polar-border {
+  background: #222;
+  padding: 5px;
+}
+
+/*# sourceMappingURL=polaroid.css.map */

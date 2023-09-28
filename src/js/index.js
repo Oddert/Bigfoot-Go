@@ -25,6 +25,25 @@ const closeButtonMessages = [
     'Continue the search...',
 ]
 
+const bfootCaptured = [
+    'bfoot-chill.jpeg',
+    'bfoot-family-guy.jpeg',
+    'bfoot-friendly.png',
+    'bfoot-guy.jpeg',
+    'bfoot-sprite.png',
+    'bfoot-stoned.jpeg',
+    'bfoot-vector.png',
+]
+
+const bfootSighted = [
+    'bfoot-sky.jpeg',
+    'bfoot-treeline.jpeg',
+    'bfoot-thumb.jpg',
+    'bfoot-woops.jpg',
+]
+
+const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)]
+
 const render = async (
     targetCenterCoords = {
         lat: 55.856,
@@ -212,7 +231,7 @@ let xInc = 0
 
 const gameLoop = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-        console.log('rerender', xInc, yInc)
+        console.log('rerender', xInc)
         console.log(position)
         console.log(position.coords, {
             ...position.coords,
@@ -244,9 +263,13 @@ function startEncounter (idx) {
     console.log('ENCOUNTER')
     noLoop()
     const popup = document.querySelector('#popup')
+
     const title = popup.querySelector('.title')
+    const bush = popup.querySelector('.bfoot.bush')
     const actual = popup.querySelector('.bfoot.actual')
+    const actualWrapper = actual.closest('.polaroid')
     const danny = popup.querySelector('.bfoot.danny')
+    // const dannyWrapper = danny.closest('.polaroid')
     const camera = popup.querySelector('.camera')
     const close = popup.querySelector('.close')
     const success = popup.querySelector('.success')
@@ -254,15 +277,16 @@ function startEncounter (idx) {
     popup.classList.remove('hidden')
 
     const resetImgs = () => {
-        actual.classList.add('hidden')
+        actualWrapper.classList.add('hidden')
         danny.classList.add('hidden')
     }
 
     const resetTitle = () => {
         title.innerHTML = 'A wild Bigfoot appears!'
-        actual.classList.remove('hidden')
+        actualWrapper.classList.add('hidden')
         popup.classList.add('hidden')
         close.classList.add('hidden')
+        bush.classList.remove('hidden')
         camera.classList.remove('hidden')
         actual.src = './src/bigfoot.jpg'
         interval = setInterval(gameLoop, 1000)
@@ -277,32 +301,43 @@ function startEncounter (idx) {
     const fail = () => {
         resetImgs()
         title.innerHTML = 'Oh no! They got away!'
-        actual.src = './src/bigfoot-fail.png'
-        actual.classList.remove('hidden')
+        actual.src = `./src/imgs/bigfoot-sighted/${pickRandom(bfootSighted)}`
+        actualWrapper.classList.remove('hidden')
         close.classList.remove('hidden')
         success.classList.add('hidden')
         camera.classList.add('hidden')
-        close.innerHTML = `${closeButtonMessages[Math.floor(Math.random() * closeButtonMessages.length)]} (close)`
+        close.innerHTML = `${pickRandom(closeButtonMessages)} (close)`
 
         close.onclick = resetTitle
         setTimeout(resetTitle, 10_000)
     }
 
-    let timeFail = setTimeout(fail, Math.random() * 10_000 + 15_000)
+    // let timeFail = setTimeout(fail, Math.random() * 10_000 + 15_000)
+
+    console.log(camera, camera.onclick)
     camera.onclick = () => {
-        clearInterval(timeFail)
-        const coinFlip = Math.floor(Math.random() * 3)
-        if (coinFlip < 2) {
-            title.innerHTML = 'Success! You send the photo the local paper'
-            actual.src = './src/bigfoot-captured.jpg'
-            camera.classList.add('hidden')
-            success.classList.remove('hidden')
-            success.onclick = () => {
-                resetImgs()
-                resetTitle()
+        console.log('click!')
+        popup.classList.add('flash')
+        setTimeout(() => {
+            popup.classList.remove('flash')
+            // clearInterval(timeFail)
+            bush.classList.add('hidden')
+            const coinFlip = Math.floor(Math.random() * 3)
+            if (coinFlip < 2) {
+                title.innerHTML = 'Success! You send the photo the local paper'
+                actualWrapper.classList.remove('hidden')
+                actual.src = `./src/imgs/bigfoot-captured/${pickRandom(bfootCaptured)}`
+                actualWrapper.style.transform = `rotate(${Math.floor(Math.random() * 8) * (Math.floor(Math.random() * 2) ? -1 : 1)}deg)`
+                camera.classList.add('hidden')
+                success.classList.remove('hidden')
+                success.onclick = () => {
+                    resetImgs()
+                    resetTitle()
+                }
+            } else {
+                fail()
             }
-        } else {
-            fail()
-        }
+        }, 500)
     }
 }
+startEncounter()

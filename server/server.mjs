@@ -18,7 +18,7 @@ import routeUser from './routes/user.mjs'
 
 dotenv.config()
 
-const __dirname = __dirname || path.resolve(path.dirname(''))
+const dirname = path.resolve(path.dirname(''))
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -27,7 +27,7 @@ app.use(
     morgan(':method :url :status :res[content-length] - :response-time ms')
 )
 
-app.use(express.static(path.join(__dirname, './')))
+app.use(express.static(path.join(dirname, './')))
 
 app.use(helmet({ xContentTypeOptions: false }))
 app.use(express.urlencoded({ extended: true }))
@@ -51,7 +51,7 @@ passport.serializeUser(serialiseUser)
 passport.deserializeUser(deserialiseUser)
 
 app.route('/')
-    .get(isUserAuth, (req, res) => res.sendFile(path.join(__dirname, './index.html')))
+    .get(isUserAuth, (req, res) => res.sendFile(path.join(dirname, './index.html')))
 
 app.use('/bfoot', routeBfoot)
 app.use('/user', routeUser)

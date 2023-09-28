@@ -6,12 +6,12 @@ import { Router } from 'express'
 
 import db from '../db.mjs'
 
-const __dirname = __dirname || path.resolve(path.dirname(''))
+const dirname = path.resolve(path.dirname(''))
 
 const router = Router()
 
 router.route('/login')
-    .get((req, res) => res.sendFile(path.join(__dirname, './login.html')))
+    .get((req, res) => res.sendFile(path.join(dirname, './login.html')))
     .post(passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/user/login',

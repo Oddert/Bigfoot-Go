@@ -1,0 +1,57 @@
+/* .button styling from https://codepen.io/alexzaworski/pen/LEWRxm */
+.button {
+  cursor: pointer;
+  margin-left: 5px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  font-size: 22px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  text-decoration: none;
+  font-weight: bold;
+  color: #0d152b;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 22.5px;
+  display: inline-block;
+  width: auto;
+  background: linear-gradient(to bottom, #5b85f5 0%, #6083e1 26%, #3f63c5 100%);
+  border-radius: 5px;
+  border-top: 1px solid #95a9df;
+  border-bottom: 1px solid #8da3dd;
+  top: 0;
+  transition: all 0.06s ease-out;
+  position: relative;
+}
+.button:visited {
+  color: #0d152b;
+}
+
+.button:hover {
+  background: linear-gradient(to bottom, #7d9ef7 0%, #7e9ae7 26%, #5a79cd 100%);
+}
+
+.button:active {
+  top: 6px;
+  color: #eff2fa;
+}
+.button:active:before {
+  top: 0;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.7), 0 3px 9px rgba(0, 0, 0, 0.2);
+}
+
+.button:before {
+  display: inline-block;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  top: 6px;
+  border-radius: 5px;
+  height: 45px;
+  background: linear-gradient(to top, #09132f 0%, #182f6c 6px);
+  transition: all 0.078s ease-out;
+  box-shadow: 0 1px 0 2px rgba(0, 0, 0, 0.3), 0 5px 2.4px rgba(0, 0, 0, 0.5), 0 10.8px 9px rgba(0, 0, 0, 0.2);
+}
+
+/*# sourceMappingURL=button.css.map */
