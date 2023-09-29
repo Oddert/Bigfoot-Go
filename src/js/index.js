@@ -411,4 +411,4 @@ function startEncounter (idx) {
         }, 500)
     }
 }
-startEncounter()
+// startEncounter()
