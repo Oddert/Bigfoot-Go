@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='preconnect' href='https://fonts.googleapis.com'>
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+    <link href='https://fonts.googleapis.com/css2?family=Skranji&display=swap' rel='stylesheet'>
+    <link rel='stylesheet' href='../src/css/login.css'>
+    <title>Bigfoot Go - Login</title>
+</head>
+<body>
+    <main>
+        <img class='background cover' src='../src/imgs/forest-background.jpg' alt='background'>
+        <img class='background primary' src='../src/imgs/forest-background.jpg' alt='background'>
+        <div class='inner'>
+            <h1 class='title'>
+                Welcome to Bigfoot Go
+            </h1>
+            <div class='form'>
+                <h2 class='form-title login'>Login</h2>
+                <form action='/user/login' method='post' class='form-body login'>
+                    <div class='input-group'>
+                        <input aria-label='username' id='login-username' type='text' name='username' placeholder='Username' />
+                    </div>
+                    <div class='input-group'>
+                        <input aria-label='password' id='login-password' type='password' name='password' placeholder='Password' />
+                    </div>
+                    <button class='button' type='submit'>Login</button>
+                </form>
+                <h2 class='form-title register faded'>Register</h2>
+                <form action='/user/signup' method='post' class='form-body register hidden'>
+                    <div class='input-group'>
+                        <input aria-label='username' id='signup-username' type='text' name='username' placeholder='Username' />
+                    </div>
+                    <div class='input-group'>
+                        <input aria-label='password' id='signup-password' type='password' name='password' placeholder='Password' />
+                    </div>
+                    <button class='button' type='submit'>Register</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+<script src='../src/js/login.js'></script>
+</html>

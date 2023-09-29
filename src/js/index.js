@@ -70,6 +70,11 @@ const bfootDanny = [
     'wig.jpg',
 ]
 
+const profileToggle = document.querySelector('.profile .toggle')
+const profileMenu = document.querySelector('.profile .dropdown')
+
+profileToggle.onclick = () => profileMenu.classList.toggle('hidden')
+
 const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)]
 
 const render = async (
@@ -126,7 +131,7 @@ const render = async (
             [datum.latitude, datum.longitude],
             {
                 icon: L.icon({
-                    iconUrl: './src/icon-bush.gif',
+                    iconUrl: './src/imgs/ui/icon-bush.gif',
                     iconSize: [50, 23.5],
                 })
             })
@@ -193,7 +198,7 @@ const drawUser = (position) => {
             {
                 icon: position.coords.heading
                     ? L.icon({
-                        iconUrl: './src/icon-location.png',
+                        iconUrl: './src/imgs/ui/icon-location.png',
                         shadowUrl: '',
                         iconSize: [40 * iconScale, 40 * iconScale],
                         className: 'user-icon',
@@ -205,7 +210,7 @@ const drawUser = (position) => {
                     //     className: 'user-icon',
                     // })
                     : L.icon({
-                        iconUrl: './src/icon-location.png',
+                        iconUrl: './src/imgs/ui/icon-location.png',
                         shadowUrl: '',
                         iconSize: [40 * iconScale, 40 * iconScale],
                         className: 'user-icon',
@@ -259,14 +264,14 @@ if (navigator.geolocation) {
 
 const gameLoop = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-        console.log('rerender', xInc)
-        console.log(position)
-        console.log(position.coords, {
-            ...position.coords,
-            latitude: position.coords.latitude,// + (yInc / 10000),
-            longitude: position.coords.longitude, // + (xInc / 10000),
-            accuracy: position.coords.accuracy || 2,
-        })
+        // console.log('rerender')
+        // console.log(position)
+        // console.log(position.coords, {
+        //     ...position.coords,
+        //     latitude: position.coords.latitude,// + (yInc / 10000),
+        //     longitude: position.coords.longitude, // + (xInc / 10000),
+        //     accuracy: position.coords.accuracy || 2,
+        // })
         drawUser({ ...position, coords: {
             ...position.coords,
             latitude: position.coords.latitude, // + (yInc / 10000),
@@ -284,11 +289,11 @@ let interval = setInterval(gameLoop, 1000)
 const noLoop = () => clearInterval(interval)
 
 function startEncounter (idx) {
-    console.log({ idx, found, nearPoints })
+    // console.log({ idx, found, nearPoints })
     if (idx in found) {
         return
     }
-    console.log('ENCOUNTER')
+    // console.log('ENCOUNTER')
     noLoop()
     const popup = document.querySelector('#popup')
 
@@ -318,7 +323,7 @@ function startEncounter (idx) {
         close.classList.add('hidden')
         bush.classList.remove('hidden')
         camera.classList.remove('hidden')
-        actual.src = './src/bigfoot.jpg'
+        actual.src = './src/imgs/bigfoot.jpg'
         interval = setInterval(gameLoop, 1000)
         nearPoints.forEach(pointIdx => {
             const nearPoint = points[pointIdx]
@@ -360,9 +365,7 @@ function startEncounter (idx) {
 
     let timeFail = setTimeout(fail, Math.random() * 10_000 + 15_000)
 
-    console.log(camera, camera.onclick)
     camera.onclick = () => {
-        console.log('click!')
         popup.classList.add('flash')
         setTimeout(() => {
             popup.classList.remove('flash')
@@ -391,4 +394,4 @@ function startEncounter (idx) {
         }, 500)
     }
 }
-startEncounter()
+// startEncounter()

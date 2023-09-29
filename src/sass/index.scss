@@ -1,15 +1,17 @@
+@use './colours.scss';
 @use './button.scss';
 @use './polaroid.scss';
+@use './nav.scss';
+
+$blue: #3f63c5;
 
 html, body {
     margin: 0;
     padding: 0;
+    background: #3C856A;
 }
 #map {
-    /* height: 500px; */
     height: 100vh;
-    /* min-width: 500px; */
-    // border: '1px dashed tomato'
 }
 #popup {
     height: 100vh;
@@ -39,7 +41,7 @@ html, body {
 .title {
     font-family: 'Skranji', cursive;
     // background: #50C195;
-    color: darken(#3f63c5, 20%);
+    color: darken($blue, 20%);
     background: #fff;
     letter-spacing: 2px;
     padding: 10px 30px;
@@ -96,7 +98,6 @@ html, body {
     object-fit: cover;
     filter: blur(20px);
 }
-
 
 .hidden,
 #popup.hidden

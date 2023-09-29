@@ -29,7 +29,47 @@ app.use(
 
 app.use(express.static(path.join(dirname, './')))
 
-app.use(helmet({ xContentTypeOptions: false }))
+app.use(helmet({
+    xContentTypeOptions: false,
+    contentSecurityPolicy: {
+        useDefaults: false,
+        'block-all-mixed-content': true,
+        'upgrade-insecure-requests': true,
+        directives: {
+            'default-src': [
+                '\'self\''
+            ],
+            'base-uri': '\'self\'',
+            'font-src': [
+                '\'self\'',
+                'https:',
+                'data:'
+            ],
+            'frame-ancestors': [
+                '\'self\''
+            ],
+            'img-src': [
+                '\'self\'',
+                'data:',
+                'https://tile.openstreetmap.org',
+                'https://unpkg.com',
+            ],
+            'object-src': [
+                '\'none\''
+            ],
+            'script-src': [
+                '\'self\'',
+                'https://unpkg.com'
+            ],
+            'script-src-attr': '\'none\'',
+            'style-src': [
+                '\'self\'',
+                'https://fonts.googleapis.com',
+                'https://unpkg.com',
+            ],
+        },
+    }
+}))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser(process.env.SESSION_SECRET))
@@ -44,6 +84,9 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.set('views', path.join(dirname, './server/views/'))
+app.set('view engine', 'ejs')
+
 passport.use(localStrategy)
 
 passport.serializeUser(serialiseUser)
@@ -51,7 +94,8 @@ passport.serializeUser(serialiseUser)
 passport.deserializeUser(deserialiseUser)
 
 app.route('/')
-    .get(isUserAuth, (req, res) => res.sendFile(path.join(dirname, './index.html')))
+    .get(isUserAuth, (req, res) => res.render('index.ejs', { score: 4, username: req.user.username }))
+    // .get(isUserAuth, (req, res) => res.sendFile(path.join(dirname, './server/views/home.html')))
 
 app.use('/bfoot', routeBfoot)
 app.use('/user', routeUser)

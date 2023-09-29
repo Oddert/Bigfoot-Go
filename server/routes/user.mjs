@@ -1,17 +1,14 @@
 import passport from 'passport'
-import path from 'path'
 import md5 from 'md5'
 
 import { Router } from 'express'
 
 import db from '../db.mjs'
 
-const dirname = path.resolve(path.dirname(''))
-
 const router = Router()
 
 router.route('/login')
-    .get((req, res) => res.sendFile(path.join(dirname, './login.html')))
+    .get((req, res) => res.render('login.ejs'))
     .post(passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/user/login',
