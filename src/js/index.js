@@ -395,7 +395,6 @@ function startEncounter (idx) {
                     .then(res => res.json())
                     .then(res => {
                         const profileScore = document.querySelector('.sightings')
-                        console.log(res)
                         if (res.status === 200) {
                             profileScore.innerHTML = res.data.score
                         }
