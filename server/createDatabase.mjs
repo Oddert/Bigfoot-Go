@@ -6,7 +6,8 @@ db.run(
     `CREATE TABLE user (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username text UNIQUE,
-        password text,
+        password text NOT NULL,
+        score integer DEFAULT 0 NOT NULL,
         CONSTRAINT username_unique UNIQUE (username)
     )`,
     err => {
@@ -15,9 +16,9 @@ db.run(
             console.error(err.message)
         } else {
             console.log('...table created')
-            const insert = 'INSERT INTO user (username, password) VALUES (?, ?)'
-            db.run(insert, ['admin', md5('admin123455')])
-            db.run(insert, ['testuser', md5('user123455')])
+            const insert = 'INSERT INTO user (username, password, score) VALUES (?, ?, ?)'
+            db.run(insert, ['admin', md5('admin123455'), 0])
+            db.run(insert, ['testuser', md5('user123455'), 0])
             console.log('...test users inserted')
         }
     }

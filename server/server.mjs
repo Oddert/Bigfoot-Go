@@ -94,8 +94,15 @@ passport.serializeUser(serialiseUser)
 passport.deserializeUser(deserialiseUser)
 
 app.route('/')
-    .get(isUserAuth, (req, res) => res.render('index.ejs', { score: 4, username: req.user.username }))
-    // .get(isUserAuth, (req, res) => res.sendFile(path.join(dirname, './server/views/home.html')))
+    .get(isUserAuth, (req, res) =>
+        res.render(
+            'index.ejs',
+            {
+                score: req.user.score,
+                username: req.user.username,
+            },
+        )
+    )
 
 app.use('/bfoot', routeBfoot)
 app.use('/user', routeUser)

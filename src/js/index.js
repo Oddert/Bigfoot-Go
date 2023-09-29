@@ -12,6 +12,7 @@ let userPoint
 let userCircle
 let map
 let bfoot
+let lastWasFail = false
 
 const titleMessagesSuccess = ['Success! You send the photo the local paper']
 
@@ -372,7 +373,8 @@ function startEncounter (idx) {
             clearInterval(timeFail)
             bush.classList.add('hidden')
             const coinFlip = Math.floor(Math.random() * 3)
-            if (coinFlip < 2) {
+            if (coinFlip < 2 || lastWasFail) {
+                lastWasFail = false
                 title.innerHTML = pickRandom(titleMessagesSuccess)
                 actualWrapper.classList.remove('hidden')
                 actual.src = `./src/imgs/bigfoot-captured/${pickRandom(bfootCaptured)}`
@@ -383,7 +385,23 @@ function startEncounter (idx) {
                     resetImgs()
                     resetTitle()
                 }
+                fetch('/user/score', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        const profileScore = document.querySelector('.sightings')
+                        console.log(res)
+                        if (res.status === 200) {
+                            profileScore.innerHTML = res.data.score
+                        }
+                    })
             } else {
+                lastWasFail = true
                 const dannyCoinFlip = Math.floor(Math.random() * 6)
                 if (dannyCoinFlip < 2) {
                     dannySurprise()
@@ -394,4 +412,4 @@ function startEncounter (idx) {
         }, 500)
     }
 }
-// startEncounter()
+startEncounter()

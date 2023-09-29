@@ -3,6 +3,8 @@ import md5 from 'md5'
 
 import { Router } from 'express'
 
+import { isUserAuth } from '../middleware/checkAuth.mjs'
+
 import db from '../db.mjs'
 
 const router = Router()
@@ -49,17 +51,33 @@ router.route('/signup')
             username: req.body.username,
             password: md5(req.body.password),
         }
-        console.log('making user: ', data)
 
         const sql = 'INSERT INTO user (username, password) VALUES (?, ?)'
         const params = [data.username, data.password]
 
         db.run(sql, params, (err, row) => {
-            console.log('MADE user', err, row)
-            if (err) {
+            if (err || !row) {
                 return res.status(400).json({ error: err.message })
             }
-            res.redirect('/')
+            passport.authenticate('local')(req, res, () => {
+                res.redirect('/')
+            })
+        })
+    })
+
+router.route('/score')
+    .put(isUserAuth, (req, res) => {
+        const sqlInsert = `UPDATE user SET score = score + 1 WHERE username = '${req.user.username}'`
+        db.run(sqlInsert, [], (err) => {
+            if (err) {
+                return res.status(400).json({ error: err })
+            }
+            return res.status(200).json({
+                status: 200,
+                data: {
+                    score: req.user.score + 1,
+                }
+            })
         })
     })
 
