@@ -12,7 +12,17 @@ let userPoint
 let userCircle
 let map
 let bfoot
+
+let hasRendered = false
 let lastWasFail = false
+// let userZoom = false
+
+var currentAutoMove = false
+var pauseAutoMove = false
+var lastLocation = {
+    latitude: 55.856,
+    longitude: -4.259,
+}
 
 const titleMessagesSuccess = ['Success! You send the photo the local paper']
 
@@ -73,6 +83,7 @@ const bfootDanny = [
 
 const profileToggle = document.querySelector('.profile .toggle')
 const profileMenu = document.querySelector('.profile .dropdown')
+const loading = document.querySelector('.loading')
 
 profileToggle.onclick = () => profileMenu.classList.toggle('hidden')
 
@@ -95,7 +106,11 @@ const render = async (
     
     bfoot = response.data
 
-    map = L.map('map').setView([targetCenterCoords.lat, targetCenterCoords.lon], defaultZoom)
+    map = L.map('map', { zoomSnap: 0 })
+        .setView(
+            [targetCenterCoords.lat, targetCenterCoords.lon],
+            defaultZoom,
+        )
     
     // const map = L.map('map').setView([39.50, -98.35], 4)
     // const map = L.map('map').setView([bfoot[0].latitude, bfoot[0].longitude], 3)
@@ -105,6 +120,7 @@ const render = async (
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map)
+    loading.classList.add('hidden')
     
     // ========== Test / demo markers ==========
     const marker = L.marker([51.5, -0.09]).addTo(map)
@@ -147,9 +163,31 @@ const render = async (
             isActive: false,
         })
     })
+
+    map.on('movestart', () => {
+        if (!currentAutoMove) {
+            document.querySelector('.center-player').textContent = 'center = false'
+            pauseAutoMove = true
+        }
+    })
+
+    L.DomEvent.on(document.querySelector('.center-player'), 'click', () => {
+        console.log('center button click')
+        map.panTo([lastLocation.latitude, lastLocation.longitude])
+        map.setZoom(17)
+        navigator.geolocation.getCurrentPosition((position) => {
+            lastLocation.latitude = position.coords.latitude
+            lastLocation.longitude = position.coords.longitude
+            document.querySelector('.center-player').textContent = 'center = true'
+            pauseAutoMove = false
+            map.panTo([position.coords.latitude, position.coords.longitude])
+        })
+    })
+
     if (next) {
         next()
     }
+    hasRendered = true
 }
 
 const findNearPoints = (coords, _points) => {
@@ -193,6 +231,9 @@ const drawUser = (position) => {
         userCircle.setLatLng(userCoords)
     }
 
+    // commented code describes ability to use direction marker.
+    // left in until bugs can be remedied.
+    // leaflet overrides the rotate-center point causing issues rotating the sprite
     if (!userPoint) {
         userPoint = L.marker(
             userCoords,
@@ -229,7 +270,11 @@ const drawUser = (position) => {
     //     user.style.transform += 'rotate(132deg)'
     //     console.log(user.style.transform)
     // }
-    map.setView([position.coords.latitude, position.coords.longitude])
+    if (!pauseAutoMove) {
+        currentAutoMove = true
+        map.panTo([position.coords.latitude, position.coords.longitude])
+        currentAutoMove = false
+    }
     nearPoints = findNearPoints(position.coords, points)
 
     points.forEach((_point, idx) => {
@@ -246,43 +291,31 @@ const drawUser = (position) => {
     })
 }
 
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-        render(
-            { lat: position.coords.latitude, lon: position.coords.longitude },
-            () => drawUser(position)
-            // { lat: 57.197332, lon: -3.822182 },
-            // () => drawUser({ coords: { latitude: 57.197332, longitude: -3.822182, accuracy: 5, heading: 0 } })
-        )
-    })
-} else {
-    render()
-    alert('You need to enable location for Bigfoot Go to work.')
+if (!hasRendered) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            lastLocation.latitude = position.coords.latitude
+            lastLocation.longitude = position.coords.longitude
+            render(
+                { lat: position.coords.latitude, lon: position.coords.longitude },
+                () => drawUser(position)
+            )
+        })
+    } else {
+        render()
+        alert('You need to enable location for Bigfoot Go to work.')
+    }
 }
-
-// let xInc = 0
-// let yInc = 0
 
 const gameLoop = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-        // console.log('rerender')
-        // console.log(position)
-        // console.log(position.coords, {
-        //     ...position.coords,
-        //     latitude: position.coords.latitude,// + (yInc / 10000),
-        //     longitude: position.coords.longitude, // + (xInc / 10000),
-        //     accuracy: position.coords.accuracy || 2,
-        // })
         drawUser({ ...position, coords: {
             ...position.coords,
-            latitude: position.coords.latitude, // + (yInc / 10000),
-            longitude: position.coords.longitude, // + (xInc / 10000),
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
             accuracy: position.coords.accuracy || 2,
         } })
-        // xInc++
     })
-    // yInc++
-    // const position = { coords: { latitude: 57.197332, longitude: -3.820735, accuracy: 5, heading: 0 } }
 }
 
 let interval = setInterval(gameLoop, 1000)
@@ -290,11 +323,9 @@ let interval = setInterval(gameLoop, 1000)
 const noLoop = () => clearInterval(interval)
 
 function startEncounter (idx) {
-    // console.log({ idx, found, nearPoints })
     if (idx in found) {
         return
     }
-    // console.log('ENCOUNTER')
     noLoop()
     const popup = document.querySelector('#popup')
 
@@ -411,4 +442,3 @@ function startEncounter (idx) {
         }, 500)
     }
 }
-// startEncounter()

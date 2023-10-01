@@ -165,6 +165,31 @@
   font-family: "Skranji", cursive;
   font-size: 20px;
   color: #3f63c5;
+  text-shadow: 0px 0px 3px #fff;
+}
+
+.center-player {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.05s linear;
+  z-index: 999;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.center-player:hover {
+  background-color: #ecf0f1;
+}
+.center-player:active {
+  background-color: #bec3c7;
 }
 
 html, body {
@@ -188,6 +213,45 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Skranji", cursive;
+  font-size: 42px;
+  z-index: 9999999;
+  transition: 0.1s linear;
+}
+.loading p {
+  position: relative;
+}
+.loading p:after {
+  position: absolute;
+  left: 240px;
+  top: 0;
+  content: "...";
+  animation: dots 0.5s linear 0s infinite;
 }
 
 .popup-inner {

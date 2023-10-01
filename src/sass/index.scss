@@ -25,6 +25,36 @@ html, body {
     align-items: center;
     justify-content: center;
 }
+@keyframes dots {
+    0% { content: '' }
+    25% { content: '.' }
+    50% { content: '..' }
+    75% { content: '...' }
+}
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Skranji', cursive;
+    font-size: 42px;
+    z-index: 9999999;
+    transition: .1s linear;
+    p {
+        position: relative;
+        &:after {
+            position: absolute;
+            left: 240px;
+            top: 0;
+            content: '...';
+            animation: dots .5s linear 0s infinite;
+        }
+    }
+}
 .popup-inner {
     /* background: #50C195; */
     /* background: #63D8AC; */

@@ -6,7 +6,6 @@
         <!-- <meta http-equiv="X-UA-Compatible" content="IE=11"/>
         <meta http-equiv="Cache-Control" content="no-cache"/>
         <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self';"/> -->
-        <title>
         <title>Bigfoot Go</title>
         <!-- <link href='node_modules/leaflet/dist/leaflet.css' rel='stylesheet' /> -->
         <link
@@ -36,6 +35,10 @@
             <p class='score'><span class='sightings'><%= score %></span> confirmed sightings</p>
         </nav>
         <div id='map'></div>
+        <div class='loading'>
+            <p>loading map</p>
+        </div>
+        <button class='center-player'>center = true</button>
         <div id='popup' class='hidden'>
             <img class='background cover' src='./src/imgs/forest-background.jpg' alt='background'>
             <img class='background primary' src='./src/imgs/forest-background.jpg' alt='background'>
