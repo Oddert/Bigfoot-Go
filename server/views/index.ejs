@@ -32,13 +32,19 @@
                     <a href='/user/logout'>logout</a>
                 </div>
             </div>
-            <p class='score'><span class='sightings'><%= score %></span> confirmed sightings</p>
+            <div class='score-wrapper'>
+                <p class='score'><span class='sightings'><%= score %></span> confirmed sightings</p>
+                <p class='plus-one'>+1</p>
+            </div>
         </nav>
         <div id='map'></div>
         <div class='loading'>
             <p>loading map</p>
         </div>
-        <button class='center-player'>center = true</button>
+        <button aria-roledescription='re-centers the view on the user location' class='center-player active'>
+            <img class='target-full' src='./src/imgs/ui/target-full.png' alt='center view on player'>
+            <img class='target' src='./src/imgs/ui/target.png' alt='center view on player'>
+        </button>
         <div id='popup' class='hidden'>
             <img class='background cover' src='./src/imgs/forest-background.jpg' alt='background'>
             <img class='background primary' src='./src/imgs/forest-background.jpg' alt='background'>

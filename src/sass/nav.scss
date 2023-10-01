@@ -1,16 +1,17 @@
+@import './colours.scss';
 
 @mixin btn {
-    background: #fff;
+    background: $white;
     border: none;
     padding: 6px 10px;
     cursor: pointer;
     border-radius: 5px;
     transition: 0.05s linear;
     &:hover {
-        background-color: #ecf0f1;
+        background-color: $grey-1
     }
     &:active {
-        background-color: #bec3c7;
+        background-color: $grey-2;
     }
 }
 
@@ -38,7 +39,7 @@ $menu-padding: 20px;
         }
     }
     .dropdown {
-        background-color: #fff;
+        background-color: $white;
         padding: 10px 0;
         box-shadow: 2px 2px 5px rgba(0,0,0,.3);
         border-radius: 5px;
@@ -48,29 +49,89 @@ $menu-padding: 20px;
             display: block;
             text-decoration: none;
             &:hover {
-                background-color: #ecf0f1;
+                background-color: $grey-1;
                 text-decoration: underline;
             }
         }
     }
 }
+.score-wrapper {
+    position: relative;
+}
 .score {
     margin: 26px 0;
     font-family: 'Skranji', cursive;
     font-size: 20px;
-    color: #3f63c5;
-    text-shadow: 0px 0px 3px #fff;
+    color: $blue;
+    text-shadow: 0px 0px 3px $white;
+}
+@keyframes plusOne {
+    0% {
+        opacity: 0;
+        bottom: -10px;
+    }
+    35% {
+        opacity: 1;
+        bottom: 10px;
+    }
+    80% {
+        opacity: 1;
+        bottom: 10px;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+.plus-one {
+    position: absolute;
+    left: -30px;
+    bottom: 10px;
+    font-size: 26px;
+    font-weight: bolder;
+    color: $red;
+    text-shadow: 0px 0px 4px $yellow;
+    display: none;
+    opacity: 0;
+    &.show {
+        display: block;
+        animation: plusOne 1s linear 1 .5s;
+    }
 }
 
 .center-player {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
     @include btn;
+    $radius: 60px;
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
     z-index: 999;
     width: max-content;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: $radius;
+    height: $radius;
+    border-radius: 50%;
+    box-shadow: 2px 5px 10px rgba(0,0,0,.3);
+    img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+    .target {
+        display: initial;
+    }
+    .target-full {
+        display: none;
+    }
+    &.active {
+        background-color: $grey-blue-1;
+        .target {
+            display: none;
+        }
+        .target-full {
+            display: initial;
+        }
+    }
 }

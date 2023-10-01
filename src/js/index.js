@@ -166,19 +166,22 @@ const render = async (
 
     map.on('movestart', () => {
         if (!currentAutoMove) {
-            document.querySelector('.center-player').textContent = 'center = false'
+            const centerPlayer = document.querySelector('.center-player')
+            // centerPlayer.textContent = 'center = false'
+            centerPlayer.classList.remove('active')
             pauseAutoMove = true
         }
     })
 
     L.DomEvent.on(document.querySelector('.center-player'), 'click', () => {
-        console.log('center button click')
+        currentAutoMove = true
         map.panTo([lastLocation.latitude, lastLocation.longitude])
         map.setZoom(17)
         navigator.geolocation.getCurrentPosition((position) => {
+            const cp = document.querySelector('.center-player')
+            cp.classList.add('active')
             lastLocation.latitude = position.coords.latitude
             lastLocation.longitude = position.coords.longitude
-            document.querySelector('.center-player').textContent = 'center = true'
             pauseAutoMove = false
             map.panTo([position.coords.latitude, position.coords.longitude])
         })
@@ -313,7 +316,7 @@ const gameLoop = () => {
             ...position.coords,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy || 2,
+            accuracy: position.coords.accuracy || 1,
         } })
     })
 }
@@ -322,12 +325,22 @@ let interval = setInterval(gameLoop, 1000)
 
 const noLoop = () => clearInterval(interval)
 
+// document.querySelector('.score-wrapper').onclick = () => {
+//     console.log('??')
+//     const profileScore = document.querySelector('.sightings')
+//     const plusOne = document.querySelector('.plus-one')
+//     profileScore.innerHTML = Math.floor(Math.random() * 100)
+//     plusOne?.classList.add('show')
+//     setTimeout(() => plusOne?.classList.remove('show'), 5000)
+// }
+
 function startEncounter (idx) {
     if (idx in found) {
         return
     }
     noLoop()
     const popup = document.querySelector('#popup')
+    const plusOne = document.querySelector('.plus-one')
 
     const title = popup.querySelector('.title')
     const bush = popup.querySelector('.bfoot.bush')
@@ -415,6 +428,8 @@ function startEncounter (idx) {
                 success.onclick = () => {
                     resetImgs()
                     resetTitle()
+                    plusOne?.classList.add('show')
+                    setTimeout(() => plusOne?.classList.remove('show'), 5000)
                 }
                 fetch('/user/score', {
                     method: 'PUT',
@@ -442,3 +457,4 @@ function startEncounter (idx) {
         }, 500)
     }
 }
+startEncounter()
