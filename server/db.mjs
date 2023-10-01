@@ -6,7 +6,7 @@ const db = new sqlite3.Database(
     DB_NAME,
     err => {
         if (err) {
-            console.error(err.message)
+            console.error(err)
             throw err
         }
     }

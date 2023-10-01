@@ -24,7 +24,8 @@ router.route('/users')
         const sql = 'select * from user'
         db.get(sql, [], (err, rows) => {
             if (err) {
-                return res.status(400).json({ error: err.message })
+                console.error(err)
+                return res.status(400).json({ error: err })
             }
             res.json({
                 message: 'success',
@@ -57,7 +58,8 @@ router.route('/signup')
 
         db.run(sql, params, (err, row) => {
             if (err || !row) {
-                return res.status(400).json({ error: err.message })
+                console.error(err)
+                return res.status(400).json({ error: err })
             }
             passport.authenticate('local')(req, res, () => {
                 res.redirect('/')

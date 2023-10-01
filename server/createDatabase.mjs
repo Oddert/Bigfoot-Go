@@ -13,7 +13,7 @@ db.run(
     err => {
         if (err) {
             console.log('...table already exists')
-            console.error(err.message)
+            console.error(err)
         } else {
             console.log('...table created')
             const insert = 'INSERT INTO user (username, password, score) VALUES (?, ?, ?)'
