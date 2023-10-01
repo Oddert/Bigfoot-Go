@@ -56,8 +56,8 @@ router.route('/signup')
         const sql = 'INSERT INTO user (username, password) VALUES (?, ?)'
         const params = [data.username, data.password]
 
-        db.run(sql, params, (err, row) => {
-            if (err || !row) {
+        db.run(sql, params, (err) => {
+            if (err) {
                 console.error(err)
                 return res.status(400).json({ error: err })
             }

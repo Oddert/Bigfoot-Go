@@ -297,36 +297,34 @@ const drawUser = (position) => {
     })
 }
 
-if (!hasRendered) {
+var interval
+
+function gameLoop () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-            lastLocation.latitude = position.coords.latitude
-            lastLocation.longitude = position.coords.longitude
-            render(
-                { lat: position.coords.latitude, lon: position.coords.longitude },
-                () => drawUser(position)
-            )
+            drawUser({ ...position, coords: {
+                ...position.coords,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy || 1,
+            } })
         })
     } else {
-        render()
-        alert('You need to enable location for Bigfoot Go to work.')
+        clearInterval(interval)
+        alert('You must enable location sharing for Bigfoot Go to work')
     }
 }
 
-const gameLoop = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-        drawUser({ ...position, coords: {
-            ...position.coords,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy || 1,
-        } })
-    })
+navigator.geolocation.getCurrentPosition((position) => {
+    render({ lat: position.coords.latitude, lon: position.coords.longitude })
+    interval = setInterval(gameLoop, 5000)
+}, () => {
+    alert('You must enable location sharing for Bigfoot Go to work')
+})
+
+function noLoop () {
+    clearInterval(interval)
 }
-
-let interval = setInterval(gameLoop, 1000)
-
-const noLoop = () => clearInterval(interval)
 
 // document.querySelector('.score-wrapper').onclick = () => {
 //     console.log('??')
