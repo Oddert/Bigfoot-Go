@@ -3,7 +3,7 @@
   top: 0;
   right: 10px;
   padding: 20px;
-  z-index: 999;
+  z-index: 401;
   width: max-content;
   display: flex;
   flex-direction: column;
@@ -13,6 +13,7 @@
 
 .profile {
   position: absolute;
+  z-index: 1;
   top: 10px;
   right: 20px;
 }
@@ -105,7 +106,7 @@
   position: fixed;
   bottom: 50px;
   right: 20px;
-  z-index: 999;
+  z-index: 402;
   width: max-content;
   display: flex;
   flex-direction: column;

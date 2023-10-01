@@ -113,7 +113,7 @@
   top: 0;
   right: 10px;
   padding: 20px;
-  z-index: 999;
+  z-index: 401;
   width: max-content;
   display: flex;
   flex-direction: column;
@@ -123,6 +123,7 @@
 
 .profile {
   position: absolute;
+  z-index: 1;
   top: 10px;
   right: 20px;
 }
@@ -215,7 +216,7 @@
   position: fixed;
   bottom: 50px;
   right: 20px;
-  z-index: 999;
+  z-index: 402;
   width: max-content;
   display: flex;
   flex-direction: column;
@@ -269,7 +270,7 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 403;
   background: rgba(236, 240, 241, 0.6);
   display: flex;
   align-items: center;
@@ -301,7 +302,7 @@ html, body {
   justify-content: center;
   font-family: "Skranji", cursive;
   font-size: 42px;
-  z-index: 9999999;
+  z-index: 450;
   transition: 0.1s linear;
 }
 .loading p {
@@ -325,8 +326,10 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 30px;
   z-index: 1;
+  height: 85%;
 }
 
 .title {
@@ -349,7 +352,7 @@ html, body {
 }
 
 .bfoot.bush {
-  height: 40vh;
+  height: auto;
   object-fit: contain;
   width: auto;
 }

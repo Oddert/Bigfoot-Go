@@ -215,6 +215,9 @@ const findNearPoints = (coords, _points) => {
 }
 
 const drawUser = (position) => {
+    lastLocation.latitude = position.coords.latitude
+    lastLocation.longitude = position.coords.longitude
+
     if (!map) {
         return
     }
@@ -393,6 +396,19 @@ function startEncounter (idx) {
         setTimeout(resetTitle, 10_000)
     }
 
+    const tooSlow = () => {
+        resetImgs()
+        title.innerHTML = 'Ah, too slow! Whatever it was has ran away.'
+        bush.classList.add('hidden')
+        close.innerHTML = `"${pickRandom(closeButtonMessages)}" (close)`
+        setTimeout(() => {
+            close.classList.remove('hidden')
+            success.classList.add('hidden')
+            camera.classList.add('hidden')
+        }, 100)
+        close.onclick = resetTitle
+    }
+
     const dannySurprise = () => {
         resetImgs()
         title.innerHTML = pickRandom(titleMessagesDanny)
@@ -408,7 +424,7 @@ function startEncounter (idx) {
         setTimeout(resetTitle, 10_000)
     }
 
-    let timeFail = setTimeout(fail, Math.random() * 10_000 + 15_000)
+    let timeFail = setTimeout(tooSlow, Math.random() * 10_000 + 15_000)
 
     camera.onclick = () => {
         popup.classList.add('flash')
@@ -457,4 +473,4 @@ function startEncounter (idx) {
         }, 500)
     }
 }
-startEncounter()
+// startEncounter()

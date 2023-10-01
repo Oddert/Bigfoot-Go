@@ -21,7 +21,8 @@ $menu-padding: 20px;
     top: 0;
     right: 10px;
     padding: $menu-padding;
-    z-index: 999;
+    // Map capture group has items up to 400
+    z-index: 401;
     width: max-content;
     display: flex;
     flex-direction: column;
@@ -30,6 +31,7 @@ $menu-padding: 20px;
 }
 .profile {
     position: absolute;
+    z-index: 1;
     top: 10px;
     right: $menu-padding;
     .toggle {
@@ -104,7 +106,7 @@ $menu-padding: 20px;
     position: fixed;
     bottom: 50px;
     right: 20px;
-    z-index: 999;
+    z-index: 402;
     width: max-content;
     display: flex;
     flex-direction: column;
