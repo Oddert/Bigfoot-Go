@@ -83,4 +83,19 @@ router.route('/score')
         })
     })
 
+router.route('/top-ten')
+    .get((req, res) => {
+        const sql = 'SELECT username, score from user ORDER BY score DESC LIMIT 10'
+        db.all(sql, [], (err, row) => {
+            console.log(err, row)
+            if (err) {
+                return res.status(400).json({ error: err })
+            }
+            return res.status(200).json({
+                status: 200,
+                data: row,
+            })
+        })
+    })
+
 export default router

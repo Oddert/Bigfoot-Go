@@ -3,26 +3,7 @@ const defaultZoom = 17
 const iconScale = 0.5
 const nearRadius = 0.001
 
-const points = []
-let nearPoints = []
-
-const found = {}
-
-let userPoint
-let userCircle
-let map
-let bfoot
-
-let hasRendered = false
-let lastWasFail = false
-// let userZoom = false
-
-var currentAutoMove = false
-var pauseAutoMove = false
-var lastLocation = {
-    latitude: 55.856,
-    longitude: -4.259,
-}
+// const testCoordinates = { coords: { latitude: 55.833954, longitude: -4.263546, accuracy: 20 } }
 
 const titleMessagesSuccess = ['Success! You send the photo the local paper']
 
@@ -81,13 +62,72 @@ const bfootDanny = [
     'wig.jpg',
 ]
 
+var interval
+var currentAutoMove = false
+var pauseAutoMove = false
+var lastLocation = {
+    latitude: 55.856,
+    longitude: -4.259,
+}
+
+const points = []
+const found = {}
+
+let userPoint
+let userCircle
+let map
+let bfoot
+
+let nearPoints = []
+// let hasRendered = false
+let lastWasFail = false
+// let userZoom = false
+
 const profileToggle = document.querySelector('.profile .toggle')
 const profileMenu = document.querySelector('.profile .dropdown')
+const leaderBoardToggle = profileMenu.querySelector('.leader-board-option')
+const instructionsToggle = document.querySelector('.instructions-option')
+const instructions = document.querySelector('.instructions')
 const loading = document.querySelector('.loading')
 
 profileToggle.onclick = () => profileMenu.classList.toggle('hidden')
 
 const pickRandom = arr => arr[Math.floor(Math.random() * arr.length)]
+
+const openLeaderBoard = () => {
+    const leaderBoard = document.querySelector('.leader-board')
+    const leaderBoardList = leaderBoard.querySelector('.leader-board__list')
+    fetch('/user/top-ten', {
+        method: 'GET',
+        header: {
+            'Content-Type': 'application/json'
+        },
+        includeCredentials: true,
+    })
+        .then(res => res.json())
+        .then(res => {
+            const tbody = leaderBoardList.querySelector('tbody')
+            tbody.innerHTML = ''
+            res.data.forEach((datum, idx) => {
+                const row = document.createElement('tr')
+                const position = document.createElement('td')
+                const username = document.createElement('td')
+                const userScore = document.createElement('td')
+                position.textContent = idx
+                username.textContent = datum.username
+                userScore.textContent = datum.score
+                row.appendChild(position)
+                row.appendChild(username)
+                row.appendChild(userScore)
+                console.log(leaderBoardList)
+                tbody.appendChild(row)
+            })
+            leaderBoard.classList.remove('hidden')
+        })
+}
+
+leaderBoardToggle.onclick = openLeaderBoard
+instructionsToggle.onclick = () => instructions.classList.remove('hidden')
 
 const render = async (
     targetCenterCoords = {
@@ -123,24 +163,24 @@ const render = async (
     loading.classList.add('hidden')
     
     // ========== Test / demo markers ==========
-    const marker = L.marker([51.5, -0.09]).addTo(map)
+    // const marker = L.marker([51.5, -0.09]).addTo(map)
     
-    const circle = L.circle([51.508, -0.11], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: .5,
-        radius: 500,
-    }).addTo(map)
+    // const circle = L.circle([51.508, -0.11], {
+    //     color: 'red',
+    //     fillColor: '#f03',
+    //     fillOpacity: .5,
+    //     radius: 500,
+    // }).addTo(map)
     
-    const polygon = L.polygon([
-        [51.509, -0.08],
-        [51.503, -0.06],
-        [51.51, -0.047],
-    ]).addTo(map)
+    // const polygon = L.polygon([
+    //     [51.509, -0.08],
+    //     [51.503, -0.06],
+    //     [51.51, -0.047],
+    // ]).addTo(map)
     
-    marker.bindPopup('<b>Hello World</b><br /><p>I am a popup</p>')
-    circle.bindPopup('I am a circle')
-    polygon.bindPopup('I am a polygon')
+    // marker.bindPopup('<b>Hello World</b><br /><p>I am a popup</p>')
+    // circle.bindPopup('I am a circle')
+    // polygon.bindPopup('I am a polygon')
     // ========== end Test / demo markers ==========
     
     bfoot.forEach((datum, idx) => {
@@ -173,13 +213,18 @@ const render = async (
         }
     })
 
-    L.DomEvent.on(document.querySelector('.center-player'), 'click', () => {
+    L.DomEvent.on(document.querySelector('.center-player'), 'click', function (e) {
+        e.stopPropagation()
+        map.dragging.disable()
+        const cp = document.querySelector('.center-player')
+
         currentAutoMove = true
+        cp.classList.add('active')
         map.panTo([lastLocation.latitude, lastLocation.longitude])
         map.setZoom(17)
+        map.dragging.enable()
         navigator.geolocation.getCurrentPosition((position) => {
-            const cp = document.querySelector('.center-player')
-            cp.classList.add('active')
+            // position = testCoordinates
             lastLocation.latitude = position.coords.latitude
             lastLocation.longitude = position.coords.longitude
             pauseAutoMove = false
@@ -190,11 +235,23 @@ const render = async (
     if (next) {
         next()
     }
-    hasRendered = true
+    // hasRendered = true
 }
 
+/**
+ * Searches for all points within a radius of a given set of coordinates.
+ *
+ * The return value is a list of indexes of all the points within this radius.
+ *
+ * Used for the logic to display sighting markers.
+ * @param {{ latitude: number, longitude: number }} coords The coordinates to search around.
+ * @param {BigfootDatum[]} _points 
+ * @returns {number[]}
+ */
 const findNearPoints = (coords, _points) => {
     const indexes = []
+    // NOTE: There is a bug which results in searching in a longitudinal oval shape around the user. Needs investigation to fix but is not a big deal.
+    // TODO: Rudimentary logic performs a complete search; to be replaced with a quad-tree.
     _points?.forEach((point, idx) => {
         const latLon = point?.marker?.getLatLng()
         if (!latLon) {
@@ -269,6 +326,7 @@ const drawUser = (position) => {
         userPoint.setLatLng(userCoords)
     }
     
+    // NOTE: logic to implement directional user icon.
     // const user = document.querySelector('.user-icon')
     // console.log(user.style)
     // if (user) {
@@ -276,17 +334,20 @@ const drawUser = (position) => {
     //     user.style.transform += 'rotate(132deg)'
     //     console.log(user.style.transform)
     // }
+
+    // If the user does not have manual control of the view, update the window to follow them.
     if (!pauseAutoMove) {
         currentAutoMove = true
         map.panTo([position.coords.latitude, position.coords.longitude])
         currentAutoMove = false
     }
+    
+    // Update the near points list for the user's new location.
     nearPoints = findNearPoints(position.coords, points)
-
     points.forEach((_point, idx) => {
         const nearPoint = points[idx]
-        // const icon = nearPoint.marker.getIcon()
         const isActive = nearPoint.isActive
+        // Add the near points to the map and remove any that are still active.
         if (nearPoints.includes(idx)) {
             nearPoint.marker.addTo(map)
             nearPoint.isActive = true
@@ -297,11 +358,10 @@ const drawUser = (position) => {
     })
 }
 
-var interval
-
 function gameLoop () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
+            // position = testCoordinates
             drawUser({ ...position, coords: {
                 ...position.coords,
                 latitude: position.coords.latitude,
@@ -316,6 +376,7 @@ function gameLoop () {
 }
 
 navigator.geolocation.getCurrentPosition((position) => {
+    // position = testCoordinates
     render({ lat: position.coords.latitude, lon: position.coords.longitude })
     interval = setInterval(gameLoop, 5000)
 }, () => {
@@ -355,13 +416,23 @@ function startEncounter (idx) {
 
     popup.classList.remove('hidden')
     const titleNeg = Math.floor(Math.random() * 2)
-    title.style.transform = `rotate(${Math.floor(Math.random() * 2) * (titleNeg ? -1 : 1)}deg) translate(${titleNeg ? '-5vw' : '    5vw'})`
+
+    title.style.transform = `rotate(${
+        Math.floor(Math.random() * 2) * (titleNeg ? -1 : 1)
+    }deg) translate(${titleNeg ? '-5vw' : '    5vw'})`
 
     const resetImgs = () => {
         actualWrapper.classList.add('hidden')
         dannyWrapper.classList.add('hidden')
     }
 
+    /**
+     * Resets the gameplay and the default state of the modal.
+     *
+     * - Game loop is re-initialised
+     * - All points within the detectable radius are marked as 'found'. This stops a user getting multiple encounters in the same spot.
+     * - Items hidden and title set back to default.
+     */
     const resetTitle = () => {
         title.innerHTML = 'Something is rustling ahead!'
         actualWrapper.classList.add('hidden')
@@ -379,6 +450,14 @@ function startEncounter (idx) {
         })
     }
 
+    /**
+     * Handles a failed encounter, i.e. one in which the user takes a photograph but the image is invalid.
+     *
+     * - Choses a random fail-title to inform the user it got away.
+     * - Choses a random 'fail' caption for the close button.
+     * - Picks a random 'sighted' image.
+     * - Sets a time to auto-close the modal and call {@link resetTitle} if they are idle.
+     */
     const fail = () => {
         resetImgs()
         title.innerHTML = pickRandom(titleMessagesFail)
@@ -394,6 +473,16 @@ function startEncounter (idx) {
         setTimeout(resetTitle, 10_000)
     }
 
+    /**
+     * A second 'fail' conditional. Handles a response for inaction on the user's part.
+     *
+     * The gameplay describes the alleged encounter getting away, that the user was 'too slow'.
+     *
+     * Unlike {@link fail} this modal will not self-close as the user may be AFK.
+     * - Displays the 'too slow' title.
+     * - Removes the image from view.
+     * - Choses a random 'fail' caption for the close button.
+     */
     const tooSlow = () => {
         resetImgs()
         title.innerHTML = 'Ah, too slow! Whatever it was has ran away.'
@@ -407,6 +496,18 @@ function startEncounter (idx) {
         close.onclick = resetTitle
     }
 
+    /**
+     * A last 'fail' conditional, used in place of {@link fail} in some instances.
+     *
+     * The gameplay describes encountering Danny Divito hiding out in the bushes for reasons unknown.
+     *
+     * Functions the same as {@link fail}.
+     *
+     * - Choses a random danny-title to inform the user it is their friend (enemy?) Danny Divito.
+     * - Choses a random 'danny' caption for the close button; the user's apparent reaction to this.
+     * - Picks a random 'danny' image.
+     * - Sets a time to auto-close the modal and call {@link resetTitle} if they are idle.
+     */
     const dannySurprise = () => {
         resetImgs()
         title.innerHTML = pickRandom(titleMessagesDanny)
@@ -422,14 +523,27 @@ function startEncounter (idx) {
         setTimeout(resetTitle, 10_000)
     }
 
+    // Set a random time limit before displaying the 'too slow' pathway. Time is between 15 and 25 seconds.
     let timeFail = setTimeout(tooSlow, Math.random() * 10_000 + 15_000)
 
+    /**
+     * Main gameplay logic.
+     *
+     * The user clicking the camera instigates a series of events to conclude the encounter.
+     */
     camera.onclick = () => {
+        // Disable the idle timeout as the user has acted.
+        clearInterval(timeFail)
+
+        // The 'flash' class is used to emulate the flash of a camera. All events follow its removal.
         popup.classList.add('flash')
         setTimeout(() => {
             popup.classList.remove('flash')
-            clearInterval(timeFail)
+    
+            // Hide the bush animation.
             bush.classList.add('hidden')
+    
+            // User has a 2-in-3 chance to succeed. If the user has just failed then they will automatically succeed (to avoid frustration).
             const coinFlip = Math.floor(Math.random() * 3)
             if (coinFlip < 2 || lastWasFail) {
                 lastWasFail = false
@@ -472,3 +586,19 @@ function startEncounter (idx) {
     }
 }
 // startEncounter()
+
+// Bind event handlers for the modal close functionality (open functionality is handled individually)
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.onclick = function (e) {
+        const inner = this.querySelector('.modal-inner')
+        if (!inner?.contains(e.target)) {
+            this.classList.add('hidden')
+        }
+    }
+})
+
+document.querySelectorAll('.modal-close').forEach(closeBtn => {
+    closeBtn.onclick = function (e) {
+        e.target.closest('.modal').classList.add('hidden')
+    } 
+})

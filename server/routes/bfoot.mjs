@@ -11,7 +11,8 @@ const router = Router()
 router.route('/')
     .get((req, res) => {
         // TODO: logic to interact with Mostly.ai API
-        console.log(bfootSeedData.length, bfootSeedData.filter((_, idx) => !(idx % 6)).length)
+        const offset = Math.floor(Math.random() * 7)
+        console.log(bfootSeedData.length, bfootSeedData.filter((_, idx) => !((idx + offset) % 6)).length)
         return res.json({
             data: centerCoordinatesOnPlayer(
                 bfootSeedData.filter((_, idx) => !(idx % 6)),

@@ -15,6 +15,36 @@
     }
 }
 
+.btn {
+    @include btn;
+    &.github {
+        display: inline-flex;
+        align-items: center;
+        background: #010409;
+        color: rgb(230, 237, 243);
+        text-decoration: none;
+        margin: 20px auto;
+        &:hover {
+            text-decoration: underline;
+            background-color: hsl(213, 16%, 20%);
+            // background-color: #171b20;
+            // background-color: rgba(177, 186, 196, 0.12);
+        }
+        &:active {
+            text-decoration: underline;
+            background-color: hsl(216, 12%, 30%);
+            // background-color: #24282e;
+            // background-color: rgba(177, 186, 196, 0.2);
+        }
+        img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+    }
+}
+
 $menu-padding: 20px;
 #menu {
     position: fixed;
@@ -45,7 +75,12 @@ $menu-padding: 20px;
         padding: 10px 0;
         box-shadow: 2px 2px 5px rgba(0,0,0,.3);
         border-radius: 5px;
-        a {
+        a, button {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: darken($blue, 30%);
+            cursor: pointer;
             padding: 6px 16px;
             border-radius: 2px;
             display: block;
@@ -54,6 +89,10 @@ $menu-padding: 20px;
                 background-color: $grey-1;
                 text-decoration: underline;
             }
+        }
+        button {
+            width: 100%;
+            text-align: left;
         }
     }
 }
@@ -135,5 +174,139 @@ $menu-padding: 20px;
         .target-full {
             display: initial;
         }
+    }
+}
+
+@mixin modal {
+    z-index: 500;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    & .modal-inner {
+        background: $white;
+        min-width: 20vw;
+        // min-height: 50vh;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        border-radius: 5px;
+        box-shadow: 3px 8px 10px rgba(0,0,0,.3);
+        padding: 20px 60px 60px 60px;
+        position: relative;
+        & .modal-close {
+            @include btn;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: $grey-2;
+            font-size: 20px;
+            border-radius: 50%;
+            &:hover {
+                color: $text;
+            }
+        }
+    }
+}
+.modal {
+    @include modal;
+}
+
+.leader-board {
+    font-family: 'Skranji', cursive;
+}
+.instructions {
+    $w: 150px;
+    .modal-inner {
+        max-width: 700px;
+    }
+    img {
+        border-radius: 5px;
+    }
+    figure {
+        $w: 30%;
+        $h: 150px;
+        width: $w;
+        margin-left: 10px;
+        margin-right: 10px;
+        img {
+            width: 100%;
+            height: $h;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        &.primary-fig {
+            display: flex;
+            width: auto;
+            img {
+                flex: 1;
+                margin-right: 20px;
+            }
+            figcaption {
+                flex: 2;
+            }
+        }
+    }
+    .main-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+    }
+    .interface {
+        display: flex;
+        position: relative;
+        img {
+            flex: 1;
+            height: auto;
+            object-fit: contain;
+            max-width: 40%;
+            align-self: center;
+        }
+        ol {
+            flex: 1;
+        }
+    }
+}
+.primary-fig {
+    display: flex;
+    width: auto;
+    img {
+        flex: 1;
+        margin-right: 20px;
+    }
+    figcaption {
+        flex: 2;
+    }
+}
+table {
+    border-radius: 5px;
+    border-collapse: collapse;
+    border: 1px solid $text;
+    th {
+        font-size: 1.3rem;
+    }
+    td, th {
+        border: 1px solid $text;
+        text-align: center;
+        padding: 6px 18px;
+        min-width: 100px;
+    }
+    td:first-child {
+        background: lighten($green, 40%);
+    }
+    thead {
+        background: linear-gradient(330deg, darken($green, 20%) 0%, $green 100%);
+        color: $white;
     }
 }

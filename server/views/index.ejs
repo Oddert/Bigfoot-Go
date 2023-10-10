@@ -30,6 +30,9 @@
                 <button class='toggle'>Logged in as <span class='username'><%= username %></span></button>
                 <div class='dropdown hidden'>
                     <a href='/user/logout'>logout</a>
+                    <hr />
+                    <button class='leader-board-option'>leader board</button>
+                    <button class='instructions-option'>instructions & about</button>
                 </div>
             </div>
             <div class='score-wrapper'>
@@ -63,6 +66,7 @@
                 </div>
                 <img class='bfoot bush' src='./src/imgs/ui/icon-bush.gif' alt='Cartoon bush rustling'>
                 <button class='camera'>
+                    <!-- Attribution https://www.iconfinder.com/icons/5093955/camera_photo_polaroid_icon -->
                     <img src='./src/imgs/ui/icon-camera.png' alt='capture'>
                 </button>
                 <!-- <button class='button close hidden'>Probably a fake anyway (close)</button> -->
@@ -70,18 +74,110 @@
                 <button class='button success hidden'>Finished</button>
             </div>
         </div>
-        <!-- <div class="instructions">
-            <h2>Welcome to Bigfoot Go! The game where you hunt AI-interpreted Bigfoot sightings in your local area.</h2>
-            <h3>About</h3>
-            <p>This Pokemon-Go inspired game was created by Robyn Veitch, Anna Horne, and Caroline Sauter for the NatWest PICoE Away Day 2023.</p>
-            <p>The game uses the official* dataset of Bigfoot sightings to generate fake datasets scaled around the player.</p>
-            <p>Explore your local area, investigate potential sightings, and send your results to your local Bigfoot Hunters Chapter!</p>
-            <h3>Instructions</h3>
-            <p>This indicator is you, the lighter blue circle is the location accuracy.</p>
-            <p>As you approach potential sightings you'll see this bush rustling icon appear. Approach these and click on them to investigate.</p>
-            <p>Try to take a photo quickly before whoever it is runs away!</p>
-            <p>If you manage to capture a Bigfoot, send the photograph to your local paper or Bigfoot Hunters Chapter (BHC) to earn points. I'm sure they'd be very interested.</p>
-        </div> -->
+        <div class='modal leader-board hidden'>
+            <div class='modal-inner leader-board-inner'>
+                <button class='modal-close'>✖</button>
+                <h2>Bigfoot Go Leader Board</h2>
+                <table class='leader-board__list'>
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>User</th>
+                            <th>Confirmed Sightings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class='modal instructions hidden'>
+            <div class='modal-inner'>
+                <button class='modal-close'>✖</button>
+                <h2>Welcome to Bigfoot Go! <br />The game where you hunt AI-interpreted Bigfoot sightings in your local area.</h2>
+
+                <h3>About the Project</h3>
+                <p>This Pokemon-Go inspired game was created by Robyn Veitch, Anna Horne, and Caroline Sauter for the NatWest PICoE Away Day 2023.</p>
+                <p>The game uses the official* dataset of Bigfoot sightings to generate fake datasets scaled around the player.</p>
+                <p>Explore your local area, investigate potential sightings, and send your results to your local Bigfoot Hunters Chapter!</p>
+                <span class='footnote'>* I don't know what constitutes an "official" encounter vs an alleged encounter and I didn't want to ask.</span>
+
+                <div>
+                    <a class='btn github' href='https://github.com/Oddert/Bigfoot-Go'>
+                        <img src='./src/imgs/ui/github.svg' alt='github logo'>
+                        View the Code on GitHub
+                    </a>
+                </div>
+
+                <h3>Instructions</h3>
+                <p>BF-Go is a geolocation based game that requires users to explore their local area to find sightings.</p>
+                <p>As you walk around you'll find evidence of sightings. Investigate these for a chance to capture a Bigfoot on camera.</p>
+                <h4>Gameplay</h4>
+                <div class='main-gallery'>
+                    <figure>
+                        <img src='./src/imgs/instructions/player-location.png' alt='the player location point'>
+                        <figcaption>This indicator is you, the lighter blue circle is the location accuracy.</figcaption>
+                    </figure>
+                    <figure>
+                        <img src='./src/imgs/instructions/bushes-appear.png' alt='the player surrounded by a few bush icons'>
+                        <figcaption>Potential sightings are indicated with this bush rustling icon.<br />Approach these and click on them to investigate.</figcaption>
+                    </figure>
+                    <figure>
+                        <img src='./src/imgs/instructions/bigfoot-encounter.png' alt='the encounter interface screen'>
+                        <figcaption>Try to take a photo quickly before whoever it is runs away!</figcaption>
+                    </figure>
+                </div>
+                <h4>Investigating a Bigfoot Sighting</h4>
+                <figure class='primary-fig'>
+                    <img src='./src/imgs/instructions/bigfoot-potential.png' alt='a polaroid photograph of a question mark'>
+                    <figcaption>If you manage to capture a Bigfoot, send the photograph to your local newspaper or Bigfoot Hunters Chapter (BHC) to earn points, I'm sure they'd be very interested!</figcaption>
+                </figure>
+                <h4>Watch out! Success is not guaranteed</h4>
+                <figure class='primary-fig'>
+                    <img src='./src/imgs/instructions/encounter-failed.png' alt='a polaroid photograph of a question mark'>
+                    <figcaption>You must act fast before they run away and even then, your skills as a photographer will be needed for a clean shot.</figcaption>
+                </figure>
+
+                <h3>Interface</h3>
+                <div class='interface'>
+                    <img src='./src/imgs/instructions/main-interface-annotated.png' alt='the main screen of the game'>
+                    <ol>
+                        <li>Zoom controls for the map</li>
+                        <li>The players location. Blue dot is the location and the light blue circle is the accuracy range.</li>
+                        <li>Drop down menu to view the leader board, instructions and logout.</li>
+                        <li>Score / Number of confirmed sightings.</li>
+                        <li>Button to centre the map on the player. When the map is centred the button will indicate so and the map wil follow the user as you walk.</li>
+                        <li>Leaflet.js credit links.</li>
+                    </ol>
+                </div>
+
+                <h3>AI Generated Data</h3>
+                <p>"Ok so whats the deal, you just plot some random points around the user and have them walk around? Is that it?"</p>
+                <p><i>No of course not! Don't be silly. The robot does that.</i></p>
+                <p>Joking aside the heart of this project is in fact the AI generated dataset.</p>
+                <p>This project utilises Mostly.AI, trained on the seed dataset of "real" sightings, to generate a collection of fresh new data points to serve to the user, ensuring something new each time.</p>
+                <figure class='primary-fig'>
+                    <img src='./src/imgs/instructions/mostlyai-landing.png' alt='Mostly-AI landing page'>
+                    <img src='./src/imgs/instructions/mostlyai-upload.png' alt='Mostly-AI upload interface'>
+                </figure>
+                <p>
+                    Mostly AI is a fake dataset generator that allows users to create massive amounts of fake data for the purposes of testing applications, performing research and modelling, and application demonstrations.
+                </p>
+                <p>
+                    You can provide seed data in a couple of ways but the main way is via a CSV file. You then tell Mostly how many rows you'd like and it will interpolate the seed data, producing fake data to match.
+                </p>
+                <figure class='primary-fig'>
+                    <img src='./src/imgs/instructions/mostlyai-univatiate.png' alt='Mostly-AI univatiate metrics page'>
+                    <img src='./src/imgs/instructions/mostlyai-generated-bfoot-data.png' alt='Mostly-AI landing page'>
+                </figure>
+                <p>
+                    Mostly will produce fake data which mimics patterns found in the seed data as closely as possible.
+                </p>
+                <p>
+                    This data can then be exported as a CSV again or fed directly into a hosted database. In our case its just downloaded manually.
+                </p>
+            </div>
+        </div>
     </body>
     <script type='module' src='./src/js/index.js'></script>
 </html>

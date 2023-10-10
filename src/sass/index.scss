@@ -1,14 +1,20 @@
-@use './colours.scss';
 @use './button.scss';
 @use './polaroid.scss';
 @use './nav.scss';
 
-$blue: #3f63c5;
+@import './colours.scss';
 
 html, body {
     margin: 0;
     padding: 0;
     background: #3C856A;
+}
+hr {
+    border-color: $grey-1;
+}
+h1, h2, h3 {
+    font-family: 'Skranji', cursive;
+    letter-spacing: 1px;
 }
 #map {
     height: 100vh;
@@ -130,6 +136,11 @@ html, body {
 .background.cover {
     object-fit: cover;
     filter: blur(20px);
+}
+
+.footnote {
+    font-size: .8rem;
+    color: $grey-2;
 }
 
 .hidden,
