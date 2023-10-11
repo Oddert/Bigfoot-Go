@@ -1,3 +1,5 @@
+@import './colours.scss';
+
 @keyframes flashAnim {
     from {
         filter: brightness(200%)
@@ -20,7 +22,7 @@
 .polaroid {
     padding: 20px 20px 50px 20px;
     margin: 10px 0;
-    background: #ecf0f1;
+    background: $grey-1;
     box-shadow: 5px 7px 10px rgba(0,0,0,.7);
     transform: rotate(-5deg);
     animation: printAnim 1s;
@@ -46,6 +48,6 @@
     transform: skew(-15deg) rotate(-6deg);
 } */
 .polar-border {
-    background: #222;
+    background: $grey-4;
     padding: 5px;
 }

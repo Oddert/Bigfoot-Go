@@ -62,7 +62,7 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Skranji", cursive;
   color: #253b79;
-  background: #fff;
+  background: #ffffff;
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -94,7 +94,7 @@ main {
 .title {
   font-family: "Skranji", cursive;
   color: #253b79;
-  background: #fff;
+  background: #ffffff;
   letter-spacing: 2px;
   padding: 10px 30px;
   border-radius: 10px;
@@ -165,7 +165,7 @@ input[type=text]:hover, input[type=password]:hover {
   border-bottom-color: #ecf0f1;
 }
 input[type=text]:active, input[type=password]:active {
-  border-bottom-color: #fff;
+  border-bottom-color: #ffffff;
 }
 
 .input-group {

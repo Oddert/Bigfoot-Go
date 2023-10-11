@@ -1,6 +1,5 @@
 @use './button.scss';
-
-$blue: #3f63c5;
+@import './colours.scss';
 
 html, body {
     margin: 0;
@@ -9,7 +8,7 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Skranji', cursive;
     color: darken($blue, 20%);
-    background: #fff;
+    background: $white;
     padding: 5px 10px;
     border-radius: 5px;
 }
@@ -39,7 +38,7 @@ main {
     font-family: 'Skranji', cursive;
     // background: #50C195;
     color: darken($blue, 20%);
-    background: #fff;
+    background: $white;
     letter-spacing: 2px;
     padding: 10px 30px;
     border-radius: 10px;
@@ -73,18 +72,18 @@ main {
     cursor: pointer;
     transition: .05s linear;
     &:hover {
-        background: #dde7ff;
+        background: $grey-blue-2;
     }
     &:active {
-        background: #99b7ff;
+        background: $grey-blue-3;
     }
     &.faded {
         background: rgba(255,255,255,.3);
         &:hover {
-            background: #dde7ff;
+            background: $grey-blue-2;
         }
         &:active {
-            background: #99b7ff;
+            background: $grey-blue-3;
         }
     }
 }
@@ -98,13 +97,13 @@ input[type=text], input[type=password] {
     padding: 10px 10px;
     background: none;
     border: none;
-    border-bottom: 2px solid #bec3c7;
+    border-bottom: 2px solid $grey-2;
     transition: inherit;
     &:hover {
-        border-bottom-color: #ecf0f1;
+        border-bottom-color: $grey-1;
     }
     &:active {
-        border-bottom-color: #fff;
+        border-bottom-color: $white;
     }
 }
 .input-group {

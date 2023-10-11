@@ -7,7 +7,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #3C856A;
+    background: $dark-green;
 }
 hr {
     border-color: $grey-1;
@@ -15,6 +15,9 @@ hr {
 h1, h2, h3 {
     font-family: 'Skranji', cursive;
     letter-spacing: 1px;
+}
+h1 {
+    color: $dark-green
 }
 #map {
     height: 100vh;
@@ -81,7 +84,7 @@ h1, h2, h3 {
     font-family: 'Skranji', cursive;
     // background: #50C195;
     color: darken($blue, 20%);
-    background: #fff;
+    background: $white;
     letter-spacing: 2px;
     padding: 10px 30px;
     border-radius: 10px;

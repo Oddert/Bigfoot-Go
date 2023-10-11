@@ -27,14 +27,10 @@
         &:hover {
             text-decoration: underline;
             background-color: hsl(213, 16%, 20%);
-            // background-color: #171b20;
-            // background-color: rgba(177, 186, 196, 0.12);
         }
         &:active {
             text-decoration: underline;
             background-color: hsl(216, 12%, 30%);
-            // background-color: #24282e;
-            // background-color: rgba(177, 186, 196, 0.2);
         }
         img {
             width: 20px;
@@ -64,6 +60,9 @@ $menu-padding: 20px;
     z-index: 1;
     top: 10px;
     right: $menu-padding;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     .toggle {
         @include btn;
         .username {
