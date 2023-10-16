@@ -259,6 +259,7 @@
   width: 30%;
   margin-left: 10px;
   margin-right: 10px;
+  flex-direction: row;
 }
 .instructions figure img {
   width: 100%;
@@ -277,11 +278,22 @@
 .instructions figure.primary-fig figcaption {
   flex: 2;
 }
+.instructions figure.figure {
+  flex-direction: column;
+  width: auto;
+}
+.instructions figure.figure img {
+  height: 300px;
+  object-fit: contain;
+}
 .instructions .main-gallery {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
+}
+.instructions .main-gallery figure {
+  flex-direction: column;
 }
 .instructions .interface {
   display: flex;

@@ -157,7 +157,7 @@
                 <p>"Ok so whats the deal, you just plot some random points around the user and have them walk around? Is that it?"</p>
                 <p><i>No of course not! Don't be silly. The robot does that.</i></p>
                 <p>Joking aside the heart of this project is in fact the AI generated dataset.</p>
-                <p>This project utilises Mostly.AI, trained on the seed dataset of "real" sightings, to generate a collection of fresh new data points to serve to the user, ensuring something new each time.</p>
+                <p>This project utilises <a class='btn' href='https://mostly.ai/'>Mostly.AI</a>, trained on the seed dataset of "real" sightings, to generate a collection of fresh new data points to serve to the user, ensuring something new each time.</p>
                 <figure class='primary-fig'>
                     <img src='./src/imgs/instructions/mostlyai-landing.png' alt='Mostly-AI landing page'>
                     <img src='./src/imgs/instructions/mostlyai-upload.png' alt='Mostly-AI upload interface'>
@@ -178,6 +178,26 @@
                 <p>
                     This data can then be exported as a CSV again or fed directly into a hosted database. In our case its just downloaded manually.
                 </p>
+
+                <h3>Game Architecture</h3>
+                <p>The map is generated with <a href='https://leafletjs.com/'>Leaflet JS</a> using tiles from <a href='http://www.openstreetmap.org/copyright'>Open Street Map.</a></p>
+                <p>The game is hosted on a <a href='https://nodejs.org/'>Node.js</a> server with <a href='https://expressjs.com/'>express</a>, authentication is provided with <a href='https://www.passportjs.org/'>Passport</a> and <a href='https://www.passportjs.org/packages/passport-local/'>Passport-Local</a>.</p>
+                <p>Dynamic elements on the front end are rendered with vanilla JavaScript, the HTML is rendered with <a href='https://ejs.co/'>EJS templates</a>.</p>
+                <p>The game is currently hosted on <a href='https://glitch.com/edit/#!/checkered-crystal-chard?path=README.md%3A1%3A0'>Glitch.com</a></p>
+                <figure class='figure'>
+                    <img
+                        src='./src/imgs/instructions/server-highlevel-diagram.png'
+                        alt='Diagram of the server. Shows the express server in the middle communicating with a "users" database and a "datasets" database. User communication goes through an authentication layer which will redirect them to login if not authenticated.'
+                    >
+                    <figcaption>A high-level diagram of the server architecture.</figcaption>
+                </figure>
+                <p>
+                    Mostly AI does not provide an API sa that's not really the intended function of the site; its not supposed to be used for dynamically generating bits of data but larger bulk downloads.
+                </p>
+                <p>
+                    For the purpose of system integration, Mostly AI instead provides utilities to directly load generated datasets into a hosted database. For this reason we load a set of pre-generated datasets from the folder <code>./data/bfoot-datasets/csv/</code>.
+                </p>
+                <p>In a production scenario this would be a proper database and would be selectively re-populated with generated datasets.</p>
             </div>
         </div>
     </body>

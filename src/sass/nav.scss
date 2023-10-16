@@ -238,6 +238,7 @@ $menu-padding: 20px;
         width: $w;
         margin-left: 10px;
         margin-right: 10px;
+        flex-direction: row;
         img {
             width: 100%;
             height: $h;
@@ -255,12 +256,23 @@ $menu-padding: 20px;
                 flex: 2;
             }
         }
+        &.figure {
+            flex-direction: column;
+            width: auto;
+            img {
+                height: 300px;
+                object-fit: contain;
+            }
+        }
     }
     .main-gallery {
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: center;
+        figure {
+            flex-direction: column;
+        }
     }
     .interface {
         display: flex;

@@ -1,0 +1,39 @@
+@import './colours.scss';
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: $dark-green;
+}
+hr {
+    border-color: $grey-1;
+}
+h1, h2, h3 {
+    font-family: 'Skranji', cursive;
+    letter-spacing: 1px;
+}
+h1 {
+    color: $dark-green
+}
+a {
+    color: $blue;
+    &:hover {
+        color: $dark-blue;
+        text-decoration: none;
+    }
+    &:active {
+        color: $darker-blue;
+        text-decoration: none;
+    }
+}
+figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+        border-radius: 5px;
+    }
+}
